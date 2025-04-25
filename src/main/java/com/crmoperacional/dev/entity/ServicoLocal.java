@@ -26,81 +26,97 @@ public class ServicoLocal {
     @Setter
     private Long servicoId;
 
-    @Column(name="created_by")
+    @Column(name="created_by", length = 20)
     @Getter
     @Setter
     private Integer created_by;
 
-    @Column(name="tecnico_id")
+    @Column(name="tecnico_id" , length = 10)
     @Getter
     @Setter
     private Integer tecnicoId;
 
-    @Column(name="cliente_id")
+    @Column(name="tecnico_nome", length = 20)
+    @Getter
+    @Setter
+    private String tecnicoNome;
+
+
+    @Column(name="cliente_id", length = 10)
     @Getter
     @Setter
     private Long clienteId;
 
-    @Column(name="equipamento_id")
+    @Column(name="equipamento_id", length = 10)
     @Getter
     @Setter
     private Long equipamentoId;
 
-    @Column(name="escopo_servico")
+    @Column(name="escopo_servico", length = 20)
     @Getter
     @Setter
-    private Integer escopoServico;
+    private String escopoServico;
 
-    @Column(name="cnpj")
+    @Column(name="relatorio_servico", length = 1000)
+    @Getter
+    @Setter
+    private String relatorioServico;
+
+    @Column(name="software_nome", length = 50)
+    @Getter
+    @Setter
+    private String softwareNome;
+
+    @Column(name="cnpj", length = 15)
     @Getter
     @Setter String cnpj;
 
-    @Column(name="serial")
+    @Column(name="serial", length = 100)
     @Getter
     @Setter
     private String serial;
 
-    @Column(name="contato_id")
+    @Column(name="contato_id", length = 10)
     @Getter
     @Setter
     private Long contatoId;
 
-    @Column(name="contato")
+    @Column(name="contato_nome",length = 50)
     @Getter
     @Setter
-    private String contato;
+    private String contatoNome;
 
-    @Column(name="telefone")
+    @Column(name="telefone", length = 20)
     @Getter
     @Setter
     private String telefone;
 
-    @Column(name="lougradouro")
+    @Column(name="lougradouro", length = 200)
     @Getter
     @Setter
     private String lougradouro;
 
-    @Column(name="bairro")
+    @Column(name="bairro", length = 100)
     @Getter
     @Setter
     private String bairro;
 
-    @Column(name="cep")
+    @Column(name="cep", length = 9)
     @Getter
     @Setter
     private String cep;
 
-    @Column(name="cidade")
+    @Column(name="cidade", length = 20)
     @Getter
     @Setter
     private String cidade;
 
-    @Column(name="numero")
+    @Column(name="numero", length = 10)
     @Getter
     @Setter
     private String numero;
 
-    @Column(name="uf")
+    @Column(name="uf", length = 2)
     @Getter
     @Setter
     private String uf;
@@ -115,6 +131,17 @@ public class ServicoLocal {
     @Getter
     @Setter
     private LocalDateTime horaFinal;
+
+
+    @Column(name="duracao", length = 10)
+    @Getter
+    @Setter
+    private Integer duracao;
+
+
+
+
+
 
     
 }
