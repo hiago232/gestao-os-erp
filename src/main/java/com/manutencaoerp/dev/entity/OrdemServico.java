@@ -17,6 +17,9 @@ public class OrdemServico {
     @Setter
     private Integer ordemServicoId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Funcionario funcionario;
+
     @ManyToOne(fetch =  FetchType.LAZY)
     private Cliente cliente;
 
