@@ -1,4 +1,4 @@
-package com.crmoperacional.dev.controller;
+package com.manutencaoerp.dev.controller;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.crmoperacional.dev.entity.ServicoLocal;
-import com.crmoperacional.dev.service.ServicoLocalService;
+import com.manutencaoerp.dev.entity.ServicoLocal;
+import com.manutencaoerp.dev.service.ServicoLocalService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

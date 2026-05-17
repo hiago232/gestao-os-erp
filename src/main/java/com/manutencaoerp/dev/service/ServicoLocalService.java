@@ -1,12 +1,12 @@
-package com.crmoperacional.dev.service;
+package com.manutencaoerp.dev.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.crmoperacional.dev.entity.ServicoLocal;
-import com.crmoperacional.dev.repository.ServicoLocalRepository;
+import com.manutencaoerp.dev.entity.ServicoLocal;
+import com.manutencaoerp.dev.repository.ServicoLocalRepository;
 
 @Service
 public class ServicoLocalService {

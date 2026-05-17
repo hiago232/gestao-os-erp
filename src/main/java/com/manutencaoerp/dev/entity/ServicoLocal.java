@@ -1,4 +1,4 @@
-package com.crmoperacional.dev.entity;
+package com.manutencaoerp.dev.entity;
 
 
 
