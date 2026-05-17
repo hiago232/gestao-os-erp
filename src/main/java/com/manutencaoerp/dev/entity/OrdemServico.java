@@ -1,6 +1,7 @@
 package com.manutencaoerp.dev.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,4 +19,8 @@ public class OrdemServico {
 
     @ManyToOne(fetch =  FetchType.LAZY)
     private Cliente cliente;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    private Equipamento equipamento;
 }

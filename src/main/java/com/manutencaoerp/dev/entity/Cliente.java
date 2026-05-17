@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name="cliente")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "tipo_cliente")
-public class Cliente {
+public abstract class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,32 +21,32 @@ public class Cliente {
     @Setter
     private Integer clienteId;
 
-    @Column(name = "endereco")
+    @Column(name = "endereco",nullable = false)
     @Getter
     @Setter
     private String endereco;
 
-    @Column(name = "cidade")
+    @Column(name = "cidade",nullable = false)
     @Getter
     @Setter
     private String cidade;
 
-    @Column(name = "estado")
+    @Column(name = "estado",nullable = false)
     @Getter
     @Setter
     private String estado;
 
-    @Column(name = "email")
+    @Column(name = "email",nullable = false)
     @Getter
     @Setter
     private String email;
 
-    @Column(name = "cep")
+    @Column(name = "cep",nullable = false)
     @Getter
     @Setter
     private String cep;
 
-    @Column(name = "cel")
+    @Column(name = "cel",nullable = false)
     @Getter
     @Setter
     private String cel;
@@ -55,6 +55,11 @@ public class Cliente {
     @JsonManagedReference
     @Getter
     private List<Equipamento> equipamentoList;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    @Getter
+    private List<OrdemServico> ordemServicoList;
 
     public Cliente(){}
 

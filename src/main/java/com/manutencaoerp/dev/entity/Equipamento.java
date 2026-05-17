@@ -1,9 +1,13 @@
 package com.manutencaoerp.dev.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "equipamento")
@@ -19,6 +23,11 @@ public class Equipamento {
     private Integer equipamentoId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private Cliente cliente;
 
+    @OneToMany(mappedBy = "equipamento", cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonManagedReference
+    @Getter
+    private List<OrdemServico> ordemServicoList;
 }
