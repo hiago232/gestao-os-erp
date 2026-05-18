@@ -30,6 +30,8 @@ public class OrdemServico {
     @OneToOne(mappedBy = "ordemServico",cascade = CascadeType.ALL,orphanRemoval = true)
     private Manutencao manutencao;
 
+    @OneToOne(mappedBy = "ordemServico",cascade = CascadeType.ALL,orphanRemoval = true)
+    private ServicoLocal servicoLocal;
 
     public OrdemServico(){}
 }
