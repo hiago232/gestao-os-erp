@@ -49,7 +49,6 @@ public class OrdemServico {
     @OneToMany(mappedBy = "ordemServico", cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonManagedReference
     @Getter
-    @Setter
     private List<AtendimentoRemoto> atendimentoRemotoList;
 
     public OrdemServico(){}

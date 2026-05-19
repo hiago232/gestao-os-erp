@@ -1,8 +1,11 @@
 package com.manutencaoerp.dev.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "manutencao")
@@ -33,7 +36,13 @@ public class Manutencao {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ordem_servico_id")
     @Getter
+    @Setter
     private OrdemServico ordemServico;
+
+    @OneToMany(mappedBy = "manutencao", cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonManagedReference
+    @Getter
+    private List<ManutencaoItem> manutencaoItemList;
 
     public Manutencao(){}
 }

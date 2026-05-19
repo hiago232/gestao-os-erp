@@ -5,7 +5,9 @@ package com.manutencaoerp.dev.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -104,6 +106,11 @@ public class ServicoLocal {
     @JoinColumn(name = "ordem_servico_id")
     @Getter
     private OrdemServico ordemServico;
+
+    @OneToMany(mappedBy = "servicoLocal",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonManagedReference
+    @Getter
+    private List<ServicoLocalItem> servicoLocalItemList;
 
     public ServicoLocal(){}
 

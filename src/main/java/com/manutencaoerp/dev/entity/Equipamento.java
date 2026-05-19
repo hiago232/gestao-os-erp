@@ -31,5 +31,10 @@ public class Equipamento {
     @Getter
     private List<OrdemServico> ordemServicoList;
 
+    @Column(name = "serial",length = 50,nullable = false)
+    @Getter
+    @Setter
+    private String serial;
+
     public Equipamento(){}
 }
