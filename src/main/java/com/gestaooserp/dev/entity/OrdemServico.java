@@ -18,7 +18,7 @@ public class OrdemServico {
     @Column(name = "ordem_servico_id")
     @Getter
     @Setter
-    private Integer ordemServicoId;
+    private Long ordemServicoId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Getter
@@ -52,4 +52,7 @@ public class OrdemServico {
     private List<AtendimentoRemoto> atendimentoRemotoList;
 
     public OrdemServico(){}
+
+    public OrdemServico(OrdemServico ordemServico) {
+    }
 }

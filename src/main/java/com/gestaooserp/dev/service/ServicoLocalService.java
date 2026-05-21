@@ -12,6 +12,7 @@ import com.gestaooserp.dev.repository.ServicoLocalRepository;
 /*
  * TODO:
  * - Implementar DTOs para requests/responses
+ * - Logo apos implementar DTO, implementar metodo save
  * - Adicionar validações de negócio
  * - Integrar tratamento global de exceções
  * - Melhorar separação entre domínio e camada HTTP
@@ -33,11 +34,30 @@ public class ServicoLocalService {
     }
 
     public ServicoLocal finById(Long id){
-        return servicoLocalRepository.findById(id).orElse(null);}
+        return servicoLocalRepository.findById(id).orElse(null);
+    }
 
     public ServicoLocal saveServicoLocal(ServicoLocal servicoLocal){
-        ServicoLocal servicoLocalAtualizado = new ServicoLocal();
-        return servicoLocalRepository.save(servicoLocalAtualizado);
+        return null; //TODO: implentar DTO
+    }
+
+    public ServicoLocal updateServicoLocal(Long id, ServicoLocal servicoLocal){
+        if (servicoLocalRepository.findById(id).isPresent()){
+            return servicoLocalRepository.save(servicoLocal);
+        }else{
+            return null;
+        }
+    }
+
+    public Boolean deleteServicoLocal(Long id){
+        ServicoLocal servicoLocal = servicoLocalRepository.findById(id).orElse(null);
+        if(servicoLocal != null){
+            servicoLocalRepository.delete(servicoLocal);
+            return true;
+        }else{
+            return false;
+        }
+
     }
 
 
