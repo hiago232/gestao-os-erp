@@ -16,7 +16,7 @@ public class Estoque {
     @Column(name = "estoque_id")
     @Getter
     @Setter
-    private Integer estoqueId;
+    private Long estoqueId;
 
     @Column(name = "nome",length = 150, nullable = false)
     @Getter
@@ -34,4 +34,8 @@ public class Estoque {
     private List<EstoqueItem> estoqueItemList;
 
     public Estoque(){}
+
+    public Estoque(Estoque estoque) {
+
+    }
 }
