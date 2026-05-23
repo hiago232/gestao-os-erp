@@ -17,7 +17,7 @@ public class AtendimentoRemoto {
     @Column(name = "atendimento_remoto_id")
     @Getter
     @Setter
-    private Integer atendimentoRemotoId;
+    private Long atendimentoRemotoId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
@@ -56,4 +56,7 @@ public class AtendimentoRemoto {
     private LocalDateTime horaFinal;
 
 
+    public AtendimentoRemoto(AtendimentoRemoto atendimentoRemoto) {
+
+    }
 }
