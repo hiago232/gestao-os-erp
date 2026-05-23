@@ -1,15 +1,6 @@
 package com.gestaooserp.dev.service;
 
 
-/*
- * TODO:
- * - Implementar DTOs para requests/responses
- * - Logo apos implementar DTO, implementar metodo save
- * - Adicionar validações de negócio
- * - Integrar tratamento global de exceções
- * - Melhorar separação entre domínio e camada HTTP
- */
-
 import com.gestaooserp.dev.entity.OrdemServico;
 import com.gestaooserp.dev.repository.OrdemServicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;

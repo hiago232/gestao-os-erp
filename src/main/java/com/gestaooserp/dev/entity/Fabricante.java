@@ -16,7 +16,7 @@ public class Fabricante {
     @Column(name = "fabricante_id",length = 10)
     @Getter
     @Setter
-    private Integer fabricanteId;
+    private Long fabricanteId;
 
     @Column(name = "cnpj",length = 25, unique = true,nullable = false)
     @Getter
