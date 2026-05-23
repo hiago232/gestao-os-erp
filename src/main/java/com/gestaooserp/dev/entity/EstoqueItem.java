@@ -14,7 +14,7 @@ public class EstoqueItem {
     @Column(name = "estoque_item_id",nullable = false)
     @Getter
     @Setter
-    private Integer estoqueItemId;
+    private Long estoqueItemId;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JsonBackReference
@@ -34,4 +34,8 @@ public class EstoqueItem {
     private Integer quantidade;
 
     public EstoqueItem(){}
+
+    public EstoqueItem(EstoqueItem estoqueItem) {
+
+    }
 }
