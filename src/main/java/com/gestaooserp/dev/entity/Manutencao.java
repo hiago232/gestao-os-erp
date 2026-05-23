@@ -16,7 +16,7 @@ public class Manutencao {
     @Column(name = "manutencao_id")
     @Getter
     @Setter
-    private Integer manutencaoId;
+    private Long manutencaoId;
 
     @Column(name = "problema_relatado",nullable = false)
     @Getter
@@ -45,4 +45,8 @@ public class Manutencao {
     private List<ManutencaoItem> manutencaoItemList;
 
     public Manutencao(){}
+
+    public Manutencao(Manutencao manutencao) {
+
+    }
 }
