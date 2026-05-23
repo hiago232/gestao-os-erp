@@ -18,6 +18,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+ * TODO:
+ * - Implementar DTOs para requests/responses
+ * - Logo apos implementar DTO, implementar metodo save
+ * - Adicionar validações de negócio
+ * - Integrar tratamento global de exceções
+ * - Melhorar separação entre domínio e camada HTTP
+ */
+
 @Service
 public class OrdemServicoService {
 
@@ -34,23 +43,23 @@ public class OrdemServicoService {
     }
 
     public OrdemServico findById(Long id){
-        return ordemServicoRepository.findById(Math.toIntExact(id)).orElse(null);
+        return ordemServicoRepository.findById(id).orElse(null);
     }
 
-    public OrdemServico saveOrdemServico(OrdemServico ordemServico){
+    public OrdemServico save(OrdemServico ordemServico){
         return null; //TODO: implentar DTO
     }
 
-    public OrdemServico updateOrdemServico(Long id,OrdemServico ordemServico){
-        if (ordemServicoRepository.findById(Math.toIntExact(id)).isPresent()) {
+    public OrdemServico update(Long id,OrdemServico ordemServico){
+        if (ordemServicoRepository.findById(id).isPresent()) {
             return ordemServicoRepository.save(ordemServico);
         }else{
             return null;
         }
     }
 
-    public Boolean deleteOrdemServico(Long id){
-        OrdemServico ordemServico = ordemServicoRepository.findById(Math.toIntExact(id)).orElse(null);
+    public Boolean delete(Long id){
+        OrdemServico ordemServico = ordemServicoRepository.findById(id).orElse(null);
         if(ordemServico != null){
             ordemServicoRepository.delete(ordemServico);
             return true;

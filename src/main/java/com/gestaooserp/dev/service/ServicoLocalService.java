@@ -37,7 +37,7 @@ public class ServicoLocalService {
         return servicoLocalRepository.findById(id).orElse(null);
     }
 
-    public ServicoLocal saveServicoLocal(ServicoLocal servicoLocal){
+    public ServicoLocal save(ServicoLocal servicoLocal){
         return null; //TODO: implentar DTO
     }
 
@@ -49,7 +49,7 @@ public class ServicoLocalService {
         }
     }
 
-    public Boolean deleteServicoLocal(Long id){
+    public Boolean delete(Long id){
         ServicoLocal servicoLocal = servicoLocalRepository.findById(id).orElse(null);
         if(servicoLocal != null){
             servicoLocalRepository.delete(servicoLocal);

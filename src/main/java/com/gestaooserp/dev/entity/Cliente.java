@@ -19,7 +19,7 @@ public abstract class Cliente {
     @Column(name = "cliente_id")
     @Getter
     @Setter
-    private Integer clienteId;
+    private Long clienteId;
 
     @Column(name = "endereco",nullable = false)
     @Getter
