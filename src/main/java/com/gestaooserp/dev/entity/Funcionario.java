@@ -67,4 +67,7 @@ public class Funcionario {
     public Funcionario(){}
 
 
+    public Funcionario(Funcionario funcionario) {
+
+    }
 }
