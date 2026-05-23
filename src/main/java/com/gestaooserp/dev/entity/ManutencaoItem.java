@@ -14,7 +14,7 @@ public class ManutencaoItem {
     @Column(name = "manutencao_item_id")
     @Getter
     @Setter
-    private Integer manutencaoItemId;
+    private Long manutencaoItemId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
@@ -29,4 +29,8 @@ public class ManutencaoItem {
     private Item item;
 
     public ManutencaoItem(){}
+
+    public ManutencaoItem(ManutencaoItem manutencaoItem) {
+
+    }
 }
