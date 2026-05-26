@@ -17,7 +17,7 @@ public class PedidoCompra {
     @Column(name = "pedido_compra_id")
     @Getter
     @Setter
-    private Integer pedidoCompraId;
+    private Long pedidoCompraId;
 
     @Column(name = "data",nullable = false)
     @Getter
@@ -34,4 +34,7 @@ public class PedidoCompra {
     @Getter
     private List<PedidoCompraItem> pedidoCompraItemList;
 
+    public PedidoCompra(PedidoCompra pedidoCompra) {
+
+    }
 }
