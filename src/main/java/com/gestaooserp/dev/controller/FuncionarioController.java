@@ -38,7 +38,7 @@ public class FuncionarioController {
     public ResponseEntity<Funcionario> getById(@PathVariable Integer id){
         Funcionario funcionario = funcionarioService.findById(id);
         if (funcionario != null){
-            return new ResponseEntity<>(funcionario,HttpStatus.OK)
+            return new ResponseEntity<>(funcionario,HttpStatus.OK);
         }
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
