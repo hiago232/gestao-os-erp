@@ -48,7 +48,7 @@ public class EquipamentoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Equipamento> update(@PathVariable Long id,@RequestBody Equipamento equipamento){
-        Equipamento equipamentoAtualizado = equipamentoService.findById(id);
+        Equipamento equipamentoAtualizado = equipamentoService.update(id,equipamento);
         if (equipamentoAtualizado != null){
             return new ResponseEntity<>(equipamentoAtualizado,HttpStatus.OK);
         }

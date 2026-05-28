@@ -50,8 +50,8 @@ public class EstoqueItemController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EstoqueItem> update(@PathVariable Long id){
-        EstoqueItem estoqueItemAtualizado = estoqueItemService.findById(id);
+    public ResponseEntity<EstoqueItem> update(@PathVariable Long id,@RequestBody EstoqueItem estoqueItem){
+        EstoqueItem estoqueItemAtualizado = estoqueItemService.update(id,estoqueItem);
         if (estoqueItemAtualizado != null){
             return new ResponseEntity<>(estoqueItemAtualizado,HttpStatus.OK);
         }

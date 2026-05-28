@@ -40,7 +40,7 @@ public class EquipamentoService {
         return null; //TODO: implentar DTO
     }
 
-    public Equipamento equipamento(Long id, Equipamento equipamento){
+    public Equipamento update(Long id, Equipamento equipamento){
         if(equipamentoRepository.findById(id).isPresent()){
             return equipamentoRepository.save(equipamento);
         }
