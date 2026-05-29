@@ -14,7 +14,7 @@ public class PedidoCompraItem {
     @Column(name = "pedido_compra_item_id")
     @Getter
     @Setter
-    private Integer pedidoCompraItemId;
+    private Long pedidoCompraItemId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
@@ -29,4 +29,8 @@ public class PedidoCompraItem {
     private Item item;
 
     public PedidoCompraItem(){}
+
+    public PedidoCompraItem(PedidoCompraItem pedidoCompraItem) {
+
+    }
 }
