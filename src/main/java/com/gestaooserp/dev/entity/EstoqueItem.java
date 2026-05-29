@@ -16,13 +16,13 @@ public class EstoqueItem {
     @Setter
     private Long estoqueItemId;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     @Getter
     @Setter
     private Item item;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     @Getter
     @Setter

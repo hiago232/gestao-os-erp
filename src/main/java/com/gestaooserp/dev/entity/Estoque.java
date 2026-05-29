@@ -28,7 +28,7 @@ public class Estoque {
     @Setter
     private String endereco;
 
-    @OneToMany(mappedBy = "item",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "estoque",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonManagedReference
     @Getter
     private List<EstoqueItem> estoqueItemList;
