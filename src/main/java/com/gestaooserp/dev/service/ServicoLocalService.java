@@ -41,7 +41,7 @@ public class ServicoLocalService {
         return null; //TODO: implentar DTO
     }
 
-    public ServicoLocal updateServicoLocal(Long id, ServicoLocal servicoLocal){
+    public ServicoLocal update(Long id, ServicoLocal servicoLocal){
         if (servicoLocalRepository.findById(id).isPresent()){
             return servicoLocalRepository.save(servicoLocal);
         }
