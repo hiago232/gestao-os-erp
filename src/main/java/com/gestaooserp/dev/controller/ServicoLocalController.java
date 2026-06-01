@@ -25,8 +25,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @RequestMapping("/servico-local")
 public class ServicoLocalController {
 
-    @Autowired
-    ServicoLocalService servicoLocalService;
+    private final ServicoLocalService servicoLocalService;
+
+    public ServicoLocalController(ServicoLocalService servicoLocalService){
+        this.servicoLocalService = servicoLocalService;
+    }
 
 
 //    @Operation(summary="Listar todas OS",description = "Listagem de OS")

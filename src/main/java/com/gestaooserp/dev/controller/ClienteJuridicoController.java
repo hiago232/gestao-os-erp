@@ -21,8 +21,11 @@ import java.util.List;
 @RequestMapping("/cliente/juridico")
 public class ClienteJuridicoController {
 
-    @Autowired
-    ClienteJuridicoService clienteJuridicoService;
+    private final ClienteJuridicoService clienteJuridicoService;
+
+    public ClienteJuridicoController(ClienteJuridicoService clienteJuridicoService){
+        this.clienteJuridicoService = clienteJuridicoService;
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<ClienteJuridico>> getAll(){

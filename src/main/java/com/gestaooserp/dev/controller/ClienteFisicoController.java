@@ -20,8 +20,11 @@ import java.util.List;
 @RequestMapping("/cliente/fisico")
 public class ClienteFisicoController {
 
-    @Autowired
-    ClienteFisicoService clienteFisicoService;
+    private final ClienteFisicoService clienteFisicoService;
+
+    public ClienteFisicoController(ClienteFisicoService clienteFisicoService){
+        this.clienteFisicoService = clienteFisicoService;
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<ClienteFisico>> getAll(){

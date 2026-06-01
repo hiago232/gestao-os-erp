@@ -20,8 +20,11 @@ import java.util.List;
 @RequestMapping("/cliente")
 public class ClienteController {
 
-    @Autowired
-    ClienteService clienteService;
+    private final ClienteService clienteService;
+
+    public ClienteController(ClienteService clienteService){
+        this.clienteService = clienteService;
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<Cliente>> getAll(){

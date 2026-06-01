@@ -20,8 +20,11 @@ import java.util.List;
 @RequestMapping("/equipamento")
 public class EquipamentoController {
 
-    @Autowired
-    EquipamentoService equipamentoService;
+    private final EquipamentoService equipamentoService;
+
+    public EquipamentoController(EquipamentoService equipamentoService){
+        this.equipamentoService = equipamentoService;
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<Equipamento>> getAll(){

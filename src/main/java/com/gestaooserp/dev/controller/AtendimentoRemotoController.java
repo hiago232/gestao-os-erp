@@ -21,8 +21,11 @@ import java.util.List;
 @RequestMapping("/atendimento-remoto")
 public class AtendimentoRemotoController {
 
-    @Autowired
-    AtendimentoRemotoService atendimentoRemotoService;
+    private final AtendimentoRemotoService atendimentoRemotoService;
+
+    public AtendimentoRemotoController(AtendimentoRemotoService atendimentoRemotoService){
+        this.atendimentoRemotoService = atendimentoRemotoService;
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<AtendimentoRemoto>> getAll(){
