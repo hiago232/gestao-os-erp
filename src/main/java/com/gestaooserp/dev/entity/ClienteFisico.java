@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Table(name = "cliente_fisico")
 public class ClienteFisico extends Cliente{
 
-    @Column(name = "cpf",unique = true)
+    @Column(name = "cpf",unique = true,nullable = false)
     @Getter
     @Setter
     private String cpf;

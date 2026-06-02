@@ -41,11 +41,6 @@ public abstract class Cliente {
     @Setter
     private String email;
 
-    @Column(name = "cep",nullable = false)
-    @Getter
-    @Setter
-    private String cep;
-
     @Column(name = "cel",nullable = false)
     @Getter
     @Setter
