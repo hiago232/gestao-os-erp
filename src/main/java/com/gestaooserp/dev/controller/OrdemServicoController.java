@@ -10,6 +10,9 @@ package com.gestaooserp.dev.controller;
 
 import com.gestaooserp.dev.entity.OrdemServico;
 import com.gestaooserp.dev.service.OrdemServicoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +29,14 @@ public class OrdemServicoController {
     public OrdemServicoController(OrdemServicoService ordemServicoService){
         this.ordemServicoService = ordemServicoService;
     }
+
+    @Operation(summary="Listar todos serviços",description = "Listagem de serviços")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "A requisição foi executada com sucesso."),
+            @ApiResponse(responseCode = "400",description = "Requisição inválida"),
+            @ApiResponse(responseCode = "403",description = "Você não tem permissão.")
+
+    })
 
     @GetMapping("/")
     public ResponseEntity<List<OrdemServico>> getAll(){

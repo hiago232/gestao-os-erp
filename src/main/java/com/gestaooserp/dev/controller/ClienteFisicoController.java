@@ -9,6 +9,9 @@ package com.gestaooserp.dev.controller;
 
 import com.gestaooserp.dev.entity.ClienteFisico;
 import com.gestaooserp.dev.service.ClienteFisicoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +28,14 @@ public class ClienteFisicoController {
     public ClienteFisicoController(ClienteFisicoService clienteFisicoService){
         this.clienteFisicoService = clienteFisicoService;
     }
+
+        @Operation(summary="Listar todos clientes fisicos",description = "Listagem de cliente")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200",description = "A requisição foi executada com sucesso."),
+        @ApiResponse(responseCode = "400",description = "Requisição inválida"),
+        @ApiResponse(responseCode = "403",description = "Você não tem permissão.")
+
+    })
 
     @GetMapping("/")
     public ResponseEntity<List<ClienteFisico>> getAll(){
