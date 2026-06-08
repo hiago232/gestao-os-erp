@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 public record OrdemServicoRequestDTO(
 
         @NotNull
-        Long funcionarioId,
+        Integer funcionarioId,
 
         @NotNull
         Long clienteId,
