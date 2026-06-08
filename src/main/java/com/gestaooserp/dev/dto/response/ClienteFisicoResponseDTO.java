@@ -3,6 +3,7 @@ package com.gestaooserp.dev.dto.response;
 import java.time.LocalDate;
 
 public record ClienteFisicoResponseDTO(
+        Long clienteFisicoId,
         String nome,
         String cpf,
         LocalDate nasicmento,
