@@ -3,7 +3,6 @@ package com.gestaooserp.dev.controller;
  * TODO:
  * - Implementar DTOs para requests/responses
  * - Implementar anotation @Valid para validações
- * - Integrar tratamento global de exceções
  * - Melhorar separação entre domínio e camada HTTP
  */
 
@@ -15,6 +14,7 @@ import com.gestaooserp.dev.service.ClienteJuridicoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,12 +59,12 @@ public class ClienteJuridicoController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<ClienteJuridicoResponseDTO> create(@RequestBody ClienteJuridicoRequestDTO requestDTO){
+    public ResponseEntity<ClienteJuridicoResponseDTO> create(@Valid @RequestBody ClienteJuridicoRequestDTO requestDTO){
         return new ResponseEntity<>(clienteJuridicoService.save(requestDTO),HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ClienteJuridicoResponseDTO> update(@PathVariable Long id,@RequestBody ClienteJuridicoRequestDTO requestDTO){
+    public ResponseEntity<ClienteJuridicoResponseDTO> update(@Valid @PathVariable Long id,@RequestBody ClienteJuridicoRequestDTO requestDTO){
         ClienteJuridicoResponseDTO responseDTO = clienteJuridicoService.update(id,requestDTO);
         if (responseDTO != null){
             return new ResponseEntity<>(responseDTO,HttpStatus.OK);
