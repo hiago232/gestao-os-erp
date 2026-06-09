@@ -31,6 +31,11 @@ public abstract class Cliente {
     @Setter
     private String cidade;
 
+    @Column(name = "cep",nullable = false)
+    @Getter
+    @Setter
+    private String cep;
+
     @Column(name = "estado",nullable = false)
     @Getter
     @Setter

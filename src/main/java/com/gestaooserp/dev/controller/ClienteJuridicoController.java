@@ -7,6 +7,8 @@ package com.gestaooserp.dev.controller;
  * - Melhorar separação entre domínio e camada HTTP
  */
 
+import com.gestaooserp.dev.dto.request.ClienteJuridicoRequestDTO;
+import com.gestaooserp.dev.dto.response.ClienteJuridicoResponseDTO;
 import com.gestaooserp.dev.entity.ClienteFisico;
 import com.gestaooserp.dev.entity.ClienteJuridico;
 import com.gestaooserp.dev.service.ClienteJuridicoService;
@@ -39,8 +41,8 @@ public class ClienteJuridicoController {
     })
 
     @GetMapping("/")
-    public ResponseEntity<List<ClienteJuridico>> getAll(){
-        List<ClienteJuridico> clienteJuridicoList = clienteJuridicoService.findAll();
+    public ResponseEntity<List<ClienteJuridicoResponseDTO>> getAll(){
+        List<ClienteJuridicoResponseDTO> clienteJuridicoList = clienteJuridicoService.findAll();
         if (clienteJuridicoList != null){
             return new ResponseEntity<>(clienteJuridicoList, HttpStatus.OK);
         }
@@ -48,24 +50,24 @@ public class ClienteJuridicoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClienteJuridico> getById(@PathVariable Long id){
-        ClienteJuridico clienteJuridico = clienteJuridicoService.findById(id);
-        if (clienteJuridico != null){
-            return new ResponseEntity<>(clienteJuridico,HttpStatus.OK);
+    public ResponseEntity<ClienteJuridicoResponseDTO> getById(@PathVariable Long id){
+        ClienteJuridicoResponseDTO responseDTO = clienteJuridicoService.findById(id);
+        if (responseDTO != null){
+            return new ResponseEntity<>(responseDTO,HttpStatus.OK);
         }
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/")
-    public ResponseEntity<ClienteJuridico> create(@RequestBody ClienteJuridico clienteJuridico){
-        return new ResponseEntity<>(clienteJuridicoService.save(clienteJuridico),HttpStatus.CREATED);
+    public ResponseEntity<ClienteJuridicoResponseDTO> create(@RequestBody ClienteJuridicoRequestDTO requestDTO){
+        return new ResponseEntity<>(clienteJuridicoService.save(requestDTO),HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ClienteJuridico> update(@PathVariable Long id,@RequestBody ClienteJuridico clienteJuridico){
-        ClienteJuridico clienteJuridicoAtualizado = clienteJuridicoService.update(id,clienteJuridico);
-        if (clienteJuridicoAtualizado != null){
-            return new ResponseEntity<>(clienteJuridicoAtualizado,HttpStatus.OK);
+    public ResponseEntity<ClienteJuridicoResponseDTO> update(@PathVariable Long id,@RequestBody ClienteJuridicoRequestDTO requestDTO){
+        ClienteJuridicoResponseDTO responseDTO = clienteJuridicoService.update(id,requestDTO);
+        if (responseDTO != null){
+            return new ResponseEntity<>(responseDTO,HttpStatus.OK);
         }
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }

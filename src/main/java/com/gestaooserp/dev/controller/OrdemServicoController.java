@@ -37,7 +37,6 @@ public class OrdemServicoController {
             @ApiResponse(responseCode = "403",description = "Você não tem permissão.")
 
     })
-
     @GetMapping("/")
     public ResponseEntity<List<OrdemServico>> getAll(){
         List<OrdemServico> ordemServicoList = ordemServicoService.findAll();

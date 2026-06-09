@@ -1,5 +1,7 @@
 package com.gestaooserp.dev.dto.response;
 
+import com.gestaooserp.dev.entity.ClienteJuridico;
+
 import java.time.LocalDate;
 
 public record ClienteJuridicoResponseDTO(
@@ -7,7 +9,6 @@ public record ClienteJuridicoResponseDTO(
         String cnpj,
         String razaoSocial,
         String nomeFantasia,
-        LocalDate nasicmento,
         String endereco,
         String cidade,
         String estado,
@@ -15,4 +16,20 @@ public record ClienteJuridicoResponseDTO(
         String cep,
         String cel
 ) {
+
+
+    public ClienteJuridicoResponseDTO(ClienteJuridico cliente) {
+        this(
+                cliente.getClienteId(),
+                cliente.getCnpj(),
+                cliente.getRazaoSocial(),
+                cliente.getNomeFantasia(),
+                cliente.getEndereco(),
+                cliente.getCidade(),
+                cliente.getEstado(),
+                cliente.getEmail(),
+                cliente.getCep(),
+                cliente.getCel()
+        );
+    }
 }

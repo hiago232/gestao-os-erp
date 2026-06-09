@@ -36,7 +36,6 @@ public class EquipamentoController {
             @ApiResponse(responseCode = "403",description = "Você não tem permissão.")
 
     })
-
     @GetMapping("/")
     public ResponseEntity<List<Equipamento>> getAll(){
         List<Equipamento> equipamentoList = equipamentoService.findAll();
