@@ -4,11 +4,9 @@ import com.gestaooserp.dev.dto.request.ClienteJuridicoRequestDTO;
 import com.gestaooserp.dev.dto.response.ClienteJuridicoResponseDTO;
 import com.gestaooserp.dev.entity.ClienteJuridico;
 import com.gestaooserp.dev.repository.ClienteJuridicoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /*
  * TODO:
@@ -38,7 +36,7 @@ public class ClienteJuridicoService {
         ClienteJuridico clienteJuridico = new ClienteJuridico();
 
         return new ClienteJuridicoResponseDTO(clienteJuridicoRepository.save(
-                updateClienteJuridico(clienteJuridico,requestDTO)));
+                updateEntity(clienteJuridico,requestDTO)));
     }
 
     public ClienteJuridicoResponseDTO update(Long id,ClienteJuridicoRequestDTO requestDTO ){
@@ -46,7 +44,7 @@ public class ClienteJuridicoService {
         if(clienteJuridico != null){
 
             return new ClienteJuridicoResponseDTO(clienteJuridicoRepository.save(
-                    updateClienteJuridico(clienteJuridico,requestDTO)));
+                    updateEntity(clienteJuridico,requestDTO)));
         }
         return null;
     }
@@ -60,7 +58,7 @@ public class ClienteJuridicoService {
         return false;
     }
 
-    private ClienteJuridico updateClienteJuridico(ClienteJuridico clienteJuridico,ClienteJuridicoRequestDTO requestDTO){
+    private ClienteJuridico updateEntity(ClienteJuridico clienteJuridico, ClienteJuridicoRequestDTO requestDTO){
 
         clienteJuridico.setCnpj(requestDTO.cnpj());
         clienteJuridico.setRazaoSocial(requestDTO.razaoSocial());

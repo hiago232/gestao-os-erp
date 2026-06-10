@@ -14,5 +14,7 @@ public record EquipamentoRequestDTO(
         @NotBlank
         Long fabricanteId
 
+
+
 ) {
 }

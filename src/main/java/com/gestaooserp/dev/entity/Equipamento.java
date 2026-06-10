@@ -29,6 +29,8 @@ public class Equipamento {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
+    @Getter
+    @Setter
     private Cliente cliente;
 
     @OneToMany(mappedBy = "equipamento", cascade = CascadeType.ALL,orphanRemoval = true)

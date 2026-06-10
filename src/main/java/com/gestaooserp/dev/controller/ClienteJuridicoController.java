@@ -1,9 +1,7 @@
 package com.gestaooserp.dev.controller;
 /*
  * TODO:
- * - Implementar DTOs para requests/responses
- * - Implementar anotation @Valid para validações
- * - Melhorar separação entre domínio e camada HTTP
+ * - Refatorar codigo após Implementar Exception Handler
  */
 
 import com.gestaooserp.dev.dto.request.ClienteJuridicoRequestDTO;
