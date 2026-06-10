@@ -64,6 +64,11 @@ public class Fabricante {
     @Setter
     private String email;
 
+    @Column(name = "cel",nullable = false)
+    @Getter
+    @Setter
+    private String cel;
+
     @OneToMany(mappedBy = "fabricante",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonManagedReference
     @Getter
