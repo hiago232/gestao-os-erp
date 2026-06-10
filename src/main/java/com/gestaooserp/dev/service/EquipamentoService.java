@@ -2,11 +2,8 @@ package com.gestaooserp.dev.service;
 
 /*
  * TODO:
- * - Implementar DTOs para requests/responses
- * - Logo apos implementar DTO, implementar metodo save
  * - Adicionar validações de negócio
  * - Integrar tratamento global de exceções
- * - Melhorar separação entre domínio e camada HTTP
  */
 
 import com.gestaooserp.dev.dto.request.EquipamentoRequestDTO;
@@ -15,7 +12,6 @@ import com.gestaooserp.dev.entity.Cliente;
 import com.gestaooserp.dev.entity.Equipamento;
 import com.gestaooserp.dev.entity.Fabricante;
 import com.gestaooserp.dev.repository.EquipamentoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
