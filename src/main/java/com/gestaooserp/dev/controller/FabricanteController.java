@@ -1,14 +1,17 @@
 package com.gestaooserp.dev.controller;
 /*
  * TODO:
- * - Implementar DTOs para requests/responses
- * - Implementar anotation @Valid para validações
  * - Integrar tratamento global de exceções
- * - Melhorar separação entre domínio e camada HTTP
  */
 
+import com.gestaooserp.dev.dto.request.FabricanteRequestDTO;
+import com.gestaooserp.dev.dto.response.FabricanteResponseDTO;
 import com.gestaooserp.dev.entity.Fabricante;
+import com.gestaooserp.dev.entity.Item;
+import com.gestaooserp.dev.service.EquipamentoService;
 import com.gestaooserp.dev.service.FabricanteService;
+import com.gestaooserp.dev.service.ItemService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +24,14 @@ public class FabricanteController {
 
     private final FabricanteService fabricanteService;
 
+
     public FabricanteController(FabricanteService fabricanteService){
         this.fabricanteService = fabricanteService;
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Fabricante>> getAll(){
-        List<Fabricante> fabricanteList = fabricanteService.findAll();
+    public ResponseEntity<List<FabricanteResponseDTO>> getAll(){
+        List<FabricanteResponseDTO> fabricanteList = fabricanteService.findAll();
         if (fabricanteList != null){
             return new ResponseEntity<>(fabricanteList, HttpStatus.OK);
         }
@@ -35,8 +39,8 @@ public class FabricanteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Fabricante> getById(@PathVariable Long id){
-        Fabricante fabricante = fabricanteService.findById(id);
+    public ResponseEntity<FabricanteResponseDTO> getById(@PathVariable Long id){
+        FabricanteResponseDTO fabricante = fabricanteService.findById(id);
         if (fabricante != null){
             return new ResponseEntity<>(fabricante,HttpStatus.OK);
         }
@@ -44,13 +48,13 @@ public class FabricanteController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Fabricante> create(@RequestBody Fabricante fabricante){
-        return new ResponseEntity<>(fabricanteService.save(fabricante),HttpStatus.CREATED);
+    public ResponseEntity<FabricanteResponseDTO> create(@Valid @RequestBody FabricanteRequestDTO requestDTO){
+        return new ResponseEntity<>(fabricanteService.save(requestDTO),HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Fabricante> update(@PathVariable Long id,@RequestBody Fabricante fabricante){
-        Fabricante fabricanteAtualizado = fabricanteService.update(id,fabricante);
+    public ResponseEntity<FabricanteResponseDTO> update(@PathVariable Long id,@Valid @RequestBody FabricanteRequestDTO requestDTO){
+        FabricanteResponseDTO fabricanteAtualizado = fabricanteService.update(id,requestDTO);
         if (fabricanteAtualizado != null){
             return new ResponseEntity<>(fabricanteAtualizado,HttpStatus.OK);
         }

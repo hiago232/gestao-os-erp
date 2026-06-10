@@ -2,13 +2,12 @@ package com.gestaooserp.dev.service;
 
 /*
  * TODO:
- * - Implementar DTOs para requests/responses
- * - Logo apos implementar DTO, implementar metodo save
  * - Adicionar validações de negócio
  * - Integrar tratamento global de exceções
- * - Melhorar separação entre domínio e camada HTTP
  */
 
+import com.gestaooserp.dev.dto.request.FabricanteRequestDTO;
+import com.gestaooserp.dev.dto.response.FabricanteResponseDTO;
 import com.gestaooserp.dev.entity.Fabricante;
 import com.gestaooserp.dev.repository.FabricanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,28 +20,32 @@ import java.util.stream.Collectors;
 public class FabricanteService {
 
     private final FabricanteRepository fabricanteRepository;
+//    private final ItemService itemService;
+//    private final EquipamentoService equipamentoService;
 
     @Autowired
     public FabricanteService(FabricanteRepository fabricanteRepository){
         this.fabricanteRepository = fabricanteRepository;
     }
 
-    public List<Fabricante> findAll(){
+    public List<FabricanteResponseDTO> findAll(){
         List<Fabricante> fabricanteList = fabricanteRepository.findAll();
-        return fabricanteList.stream().map(Fabricante::new).collect(Collectors.toList());
+        return fabricanteList.stream().map(FabricanteResponseDTO::new).toList();
     }
 
-    public Fabricante findById(Long id){
-        return fabricanteRepository.findById(id).orElse(null);
+    public FabricanteResponseDTO findById(Long id){
+        return new FabricanteResponseDTO(fabricanteRepository.findById(id).orElse(null));
     }
 
-    public Fabricante save(Fabricante fabricante){
-        return null;
+    public FabricanteResponseDTO save(FabricanteRequestDTO requestDTO){
+        Fabricante fabricante = new Fabricante();
+        return new FabricanteResponseDTO(fabricanteRepository.save(updateEntity(fabricante,requestDTO))) ;
     }
 
-    public Fabricante update(Long id,Fabricante fabricante){
-        if (fabricanteRepository.findById(id).isPresent()){
-            return fabricanteRepository.save(fabricante);
+    public FabricanteResponseDTO update(Long id,FabricanteRequestDTO requestDTO){
+        Fabricante fabricante = fabricanteRepository.findById(id).orElse(null);
+        if (fabricante != null){
+            return new FabricanteResponseDTO(fabricanteRepository.save(updateEntity(fabricante,requestDTO))) ;
         }
         return null;
     }
@@ -54,5 +57,19 @@ public class FabricanteService {
             return true;
         }
         return false;
+    }
+
+    private Fabricante updateEntity(Fabricante fabricante, FabricanteRequestDTO requestDTO){
+        fabricante.setCnpj(requestDTO.cnpj());
+        fabricante.setRazaoSocial(requestDTO.razaoSocial());
+        fabricante.setNomeFantasia(requestDTO.nomeFantasia());
+        fabricante.setEndereco(requestDTO.endereco());
+        fabricante.setCidade(requestDTO.cidade());
+        fabricante.setEstado(requestDTO.estado());
+        fabricante.setEmail(requestDTO.email());
+        fabricante.setCep(requestDTO.cep());
+        fabricante.setCel(requestDTO.cel());
+
+        return fabricante;
     }
 }

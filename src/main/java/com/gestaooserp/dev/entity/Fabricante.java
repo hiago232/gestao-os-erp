@@ -81,6 +81,7 @@ public class Fabricante {
     @Setter
     private List<Item> itemList;
 
+    public Fabricante(){}
     public Fabricante(Fabricante fabricante) {
 
     }

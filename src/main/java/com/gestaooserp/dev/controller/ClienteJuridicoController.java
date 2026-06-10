@@ -1,7 +1,7 @@
 package com.gestaooserp.dev.controller;
 /*
  * TODO:
- * - Refatorar codigo após Implementar Exception Handler
+ * - Integrar tratamento global de exceções
  */
 
 import com.gestaooserp.dev.dto.request.ClienteJuridicoRequestDTO;
