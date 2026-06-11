@@ -69,6 +69,7 @@ public class FabricanteService {
         fabricante.setEmail(requestDTO.email());
         fabricante.setCep(requestDTO.cep());
         fabricante.setCel(requestDTO.cel());
+        fabricante.setTelefone(requestDTO.telefone());
 
         return fabricante;
     }

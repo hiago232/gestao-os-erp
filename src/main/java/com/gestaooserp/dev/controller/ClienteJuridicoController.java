@@ -62,7 +62,7 @@ public class ClienteJuridicoController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ClienteJuridicoResponseDTO> update(@Valid @PathVariable Long id,@RequestBody ClienteJuridicoRequestDTO requestDTO){
+    public ResponseEntity<ClienteJuridicoResponseDTO> update(@PathVariable Long id,@Valid @RequestBody ClienteJuridicoRequestDTO requestDTO){
         ClienteJuridicoResponseDTO responseDTO = clienteJuridicoService.update(id,requestDTO);
         if (responseDTO != null){
             return new ResponseEntity<>(responseDTO,HttpStatus.OK);

@@ -39,6 +39,9 @@ public record FabricanteRequestDTO(
         String cep,
 
         @NotBlank(message = "Celular obrigatório")
-        String cel
+        String cel,
+
+        @NotBlank(message = "Telefone obrigatório")
+        String telefone
 ) {
 }

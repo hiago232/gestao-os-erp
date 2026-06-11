@@ -12,6 +12,7 @@ import com.gestaooserp.dev.dto.response.FabricanteResponseDTO;
 import com.gestaooserp.dev.entity.Cliente;
 import com.gestaooserp.dev.entity.Equipamento;
 import com.gestaooserp.dev.entity.Fabricante;
+import com.gestaooserp.dev.repository.ClienteRepository;
 import com.gestaooserp.dev.repository.EquipamentoRepository;
 import com.gestaooserp.dev.repository.FabricanteRepository;
 import org.springframework.stereotype.Service;
@@ -23,16 +24,16 @@ import java.util.stream.Collectors;
 public class EquipamentoService {
 
     private final EquipamentoRepository equipamentoRepository;
-    private final ClienteService clienteService;
+    private final ClienteRepository clienteRepository;
     private final FabricanteRepository fabricanteRepository;
 
     public EquipamentoService(
             EquipamentoRepository equipamentoRepository,
-            ClienteService clienteService,
+            ClienteRepository clienteRepository,
             FabricanteRepository fabricanteRepository
     ){
         this.equipamentoRepository = equipamentoRepository;
-        this.clienteService = clienteService;
+        this.clienteRepository = clienteRepository;
         this.fabricanteRepository = fabricanteRepository;
     }
 
@@ -47,7 +48,7 @@ public class EquipamentoService {
 
     public EquipamentoResponseDTO save(EquipamentoRequestDTO requestDTO){
         Equipamento equipamento = new Equipamento();
-        Cliente cliente = clienteService.findById(requestDTO.clienteId());
+        Cliente cliente = clienteRepository.findById(requestDTO.clienteId()).orElse(null);
         Fabricante fabricante = fabricanteRepository.findById(requestDTO.fabricanteId()).orElse(null);
         return new EquipamentoResponseDTO(equipamentoRepository.save(updateEntity(
                 requestDTO,
@@ -60,8 +61,8 @@ public class EquipamentoService {
     public EquipamentoResponseDTO update(Long id, EquipamentoRequestDTO requestDTO){
         Equipamento equipamento = equipamentoRepository.findById(id).orElse(null);
         if(equipamento != null ){
-            Cliente cliente = equipamento.getCliente();
-            Fabricante fabricante = equipamento.getFabricante();
+            Cliente cliente = clienteRepository.findById(requestDTO.clienteId()).orElse(null);
+            Fabricante fabricante = fabricanteRepository.findById(requestDTO.fabricanteId()).orElse(null);
             return new EquipamentoResponseDTO(equipamentoRepository.save(updateEntity(
                     requestDTO,
                     equipamento,

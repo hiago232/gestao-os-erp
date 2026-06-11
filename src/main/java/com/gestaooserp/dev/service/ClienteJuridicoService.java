@@ -63,6 +63,7 @@ public class ClienteJuridicoService {
         clienteJuridico.setCnpj(requestDTO.cnpj());
         clienteJuridico.setRazaoSocial(requestDTO.razaoSocial());
         clienteJuridico.setNomeFantasia(requestDTO.nomeFantasia());
+        clienteJuridico.setResponsavel(requestDTO.responsavel());
         clienteJuridico.setEndereco(requestDTO.endereco());
         clienteJuridico.setCidade(requestDTO.cidade());
         clienteJuridico.setEstado(requestDTO.estado());

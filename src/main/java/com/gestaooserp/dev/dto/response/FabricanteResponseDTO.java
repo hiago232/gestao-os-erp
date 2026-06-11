@@ -12,7 +12,8 @@ public record FabricanteResponseDTO(
         String estado,
         String email,
         String cep,
-        String cel
+        String cel,
+        String telefone
 ) {
     public FabricanteResponseDTO(Fabricante fabricante){
         this(
@@ -25,7 +26,8 @@ public record FabricanteResponseDTO(
                 fabricante.getEstado(),
                 fabricante.getEmail(),
                 fabricante.getCep(),
-                fabricante.getCel()
+                fabricante.getCel(),
+                fabricante.getTelefone()
         );
     }
 }

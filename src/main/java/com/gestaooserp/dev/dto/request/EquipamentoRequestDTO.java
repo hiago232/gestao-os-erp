@@ -5,13 +5,13 @@ import jakarta.validation.constraints.NotNull;
 
 public record EquipamentoRequestDTO(
 
-        @NotBlank
+        @NotBlank(message = "Serial obrigatório.")
         String serial,
 
-        @NotNull
+        @NotNull(message = "Id do cliente obrigatório.")
         Long clienteId,
 
-        @NotBlank
+        @NotNull(message = "Id do fabricante obrigatório.")
         Long fabricanteId
 
 
