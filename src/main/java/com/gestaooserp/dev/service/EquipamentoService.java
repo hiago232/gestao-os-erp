@@ -39,7 +39,7 @@ public class EquipamentoService {
 
     public List<EquipamentoResponseDTO> findAll(){
         List<Equipamento>equipamentoList = equipamentoRepository.findAll();
-        return equipamentoList.stream().map(EquipamentoResponseDTO::new).collect(Collectors.toList());
+        return equipamentoList.stream().map(EquipamentoResponseDTO::new).toList();
     }
 
     public EquipamentoResponseDTO findById(Long id){
