@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -23,15 +24,35 @@ public class Manutencao {
     @Setter
     private String problemaRelatado;
 
-    @Column(name = "defeito_constatado",nullable = false)
+    @Column(name = "defeito_constatado")
     @Getter
     @Setter
     private String defeitoConstatado;
 
-    @Column(name = "servico_realizado",nullable = false)
+    @Column(name = "servico_realizado")
     @Getter
     @Setter
     private String servicoRealizado;
+
+    @Column(name = "data_inicial")
+    @Getter
+    @Setter
+    private LocalDate dataInicial;
+
+    @Column(name = "data_final")
+    @Getter
+    @Setter
+    private LocalDate dataFinal;
+
+    @Column(name = "data_entrada",nullable = false)
+    @Getter
+    @Setter
+    private LocalDate dataEntrada;
+
+    @Column(name = "data_saida")
+    @Getter
+    @Setter
+    private LocalDate dataSaida;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ordem_servico_id")

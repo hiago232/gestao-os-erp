@@ -1,5 +1,7 @@
 package com.gestaooserp.dev.dto.response;
 
+import com.gestaooserp.dev.entity.OrdemServico;
+
 public record OrdemServicoResponseDTO(
         Long ordemServicoId,
         Integer funcionarioId,
@@ -9,4 +11,6 @@ public record OrdemServicoResponseDTO(
         Long servicoLocalId
 
 ) {
+
+
 }
