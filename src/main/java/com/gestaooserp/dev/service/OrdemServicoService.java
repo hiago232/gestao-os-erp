@@ -47,12 +47,12 @@ public class OrdemServicoService {
         return new OrdemServicoResponseDTO(ordemServicoRepository.findById(id).orElse(null));
     }
 
-    public OrdemServicoResponseDTO save(OrdemServicoRequestDTO requestDTO){
+    public OrdemServico abrirOrdemServico (Funcionario funcionario, Cliente cliente, Equipamento equipamento){
         OrdemServico ordemServico = new OrdemServico();
-        Funcionario funcionario = funcionarioRepository.findById(requestDTO.funcionarioId()).orElse(null);
-        Cliente cliente = clienteRepository.findById(requestDTO.clienteId()).orElse(null);
-        Equipamento equipamento = equipamentoRepository.findById(requestDTO.equipamentoId()).orElse(null);
-        return new OrdemServicoResponseDTO(updateEntity(ordemServico,requestDTO,funcionario,cliente,equipamento));
+        ordemServico.setFuncionario(funcionario);
+        ordemServico.setCliente(cliente);
+        ordemServico.setEquipamento(equipamento);
+        return ordemServicoRepository.save(ordemServico);
     }
 
     public OrdemServicoResponseDTO update(Long id,OrdemServicoRequestDTO requestDTO){
