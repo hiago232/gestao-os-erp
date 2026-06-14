@@ -55,10 +55,6 @@ public class OrdemServicoController {
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/")
-    public ResponseEntity<OrdemServicoResponseDTO> create(@Valid @RequestBody OrdemServicoRequestDTO requestDTO){
-        return new ResponseEntity<>(ordemServicoService.save(requestDTO),HttpStatus.CREATED);
-    }
 
     @PutMapping("/{id}")
     public ResponseEntity<OrdemServicoResponseDTO> update(@PathVariable Long id,@Valid @RequestBody OrdemServicoRequestDTO requestDTO){
