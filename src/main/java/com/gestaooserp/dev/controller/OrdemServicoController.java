@@ -1,18 +1,18 @@
 package com.gestaooserp.dev.controller;
 /*
  * TODO:
- * - Implementar DTOs para requests/responses
- * - Implementar anotation @Valid para validações
- * - Integrar tratamento global de exceções
- * - Melhorar separação entre domínio e camada HTTP
+ * - Refatorar codigo após Implementar Exception Handler
  */
 
 
+import com.gestaooserp.dev.dto.request.OrdemServicoRequestDTO;
+import com.gestaooserp.dev.dto.response.OrdemServicoResponseDTO;
 import com.gestaooserp.dev.entity.OrdemServico;
 import com.gestaooserp.dev.service.OrdemServicoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +38,8 @@ public class OrdemServicoController {
 
     })
     @GetMapping("/")
-    public ResponseEntity<List<OrdemServico>> getAll(){
-        List<OrdemServico> ordemServicoList = ordemServicoService.findAll();
+    public ResponseEntity<List<OrdemServicoResponseDTO>> getAll(){
+        List<OrdemServicoResponseDTO> ordemServicoList = ordemServicoService.findAll();
         if (ordemServicoList != null){
             return new ResponseEntity<>(ordemServicoList, HttpStatus.OK);
         }
@@ -47,8 +47,8 @@ public class OrdemServicoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrdemServico> getById(@PathVariable Long id){
-        OrdemServico ordemServico = ordemServicoService.findById(id);
+    public ResponseEntity<OrdemServicoResponseDTO> getById(@PathVariable Long id){
+        OrdemServicoResponseDTO ordemServico = ordemServicoService.findById(id);
         if (ordemServico != null){
             return new ResponseEntity<>(ordemServico,HttpStatus.OK);
         }
@@ -56,13 +56,13 @@ public class OrdemServicoController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<OrdemServico> create(@RequestBody OrdemServico ordemServico){
-        return new ResponseEntity<>(ordemServicoService.save(ordemServico),HttpStatus.CREATED);
+    public ResponseEntity<OrdemServicoResponseDTO> create(@Valid @RequestBody OrdemServicoRequestDTO requestDTO){
+        return new ResponseEntity<>(ordemServicoService.save(requestDTO),HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OrdemServico> update(@PathVariable Long id,@RequestBody OrdemServico ordemServico){
-        OrdemServico manutencaoAtualizada = ordemServicoService.update(id, ordemServico);
+    public ResponseEntity<OrdemServicoResponseDTO> update(@PathVariable Long id,@Valid @RequestBody OrdemServicoRequestDTO requestDTO){
+        OrdemServicoResponseDTO manutencaoAtualizada = ordemServicoService.update(id, requestDTO);
         if (manutencaoAtualizada != null){
             return new ResponseEntity<>(manutencaoAtualizada,HttpStatus.OK);
         }

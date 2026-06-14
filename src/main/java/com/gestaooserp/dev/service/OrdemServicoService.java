@@ -1,8 +1,10 @@
 package com.gestaooserp.dev.service;
 
 
-import com.gestaooserp.dev.entity.OrdemServico;
-import com.gestaooserp.dev.repository.OrdemServicoRepository;
+import com.gestaooserp.dev.dto.request.OrdemServicoRequestDTO;
+import com.gestaooserp.dev.dto.response.OrdemServicoResponseDTO;
+import com.gestaooserp.dev.entity.*;
+import com.gestaooserp.dev.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,39 +13,55 @@ import java.util.stream.Collectors;
 
 /*
  * TODO:
- * - Implementar DTOs para requests/responses
- * - Logo apos implementar DTO, implementar metodo save
  * - Adicionar validações de negócio
  * - Integrar tratamento global de exceções
- * - Melhorar separação entre domínio e camada HTTP
  */
 
 @Service
 public class OrdemServicoService {
 
     private final OrdemServicoRepository ordemServicoRepository;
+    private final FuncionarioRepository funcionarioRepository;
+    private final ClienteRepository clienteRepository;
+    private final EquipamentoRepository equipamentoRepository;
 
     @Autowired
-    public OrdemServicoService(OrdemServicoRepository ordemServicoRepository){
+    public OrdemServicoService(
+            OrdemServicoRepository ordemServicoRepository,
+            FuncionarioRepository funcionarioRepository,
+            ClienteRepository clienteRepository,
+            EquipamentoRepository equipamentoRepository
+    ){
         this.ordemServicoRepository = ordemServicoRepository;
+        this.funcionarioRepository = funcionarioRepository;
+        this.clienteRepository = clienteRepository;
+        this.equipamentoRepository = equipamentoRepository;
     }
 
-    public List<OrdemServico> findAll(){
+    public List<OrdemServicoResponseDTO> findAll(){
         List<OrdemServico> ordemServicoList = ordemServicoRepository.findAll();
-        return ordemServicoList.stream().map(OrdemServico::new).collect(Collectors.toList());
+        return ordemServicoList.stream().map(OrdemServicoResponseDTO::new).toList();
     }
 
-    public OrdemServico findById(Long id){
-        return ordemServicoRepository.findById(id).orElse(null);
+    public OrdemServicoResponseDTO findById(Long id){
+        return new OrdemServicoResponseDTO(ordemServicoRepository.findById(id).orElse(null));
     }
 
-    public OrdemServico save(OrdemServico ordemServico){
-        return null; //TODO: implentar DTO
+    public OrdemServicoResponseDTO save(OrdemServicoRequestDTO requestDTO){
+        OrdemServico ordemServico = new OrdemServico();
+        Funcionario funcionario = funcionarioRepository.findById(requestDTO.funcionarioId()).orElse(null);
+        Cliente cliente = clienteRepository.findById(requestDTO.clienteId()).orElse(null);
+        Equipamento equipamento = equipamentoRepository.findById(requestDTO.equipamentoId()).orElse(null);
+        return new OrdemServicoResponseDTO(updateEntity(ordemServico,requestDTO,funcionario,cliente,equipamento));
     }
 
-    public OrdemServico update(Long id,OrdemServico ordemServico){
-        if (ordemServicoRepository.findById(id).isPresent()) {
-            return ordemServicoRepository.save(ordemServico);
+    public OrdemServicoResponseDTO update(Long id,OrdemServicoRequestDTO requestDTO){
+        OrdemServico ordemServico = ordemServicoRepository.findById(id).orElse(null);
+        if (ordemServico != null) {
+            Funcionario funcionario = funcionarioRepository.findById(requestDTO.funcionarioId()).orElse(null);
+            Cliente cliente = clienteRepository.findById(requestDTO.clienteId()).orElse(null);
+            Equipamento equipamento = equipamentoRepository.findById(requestDTO.equipamentoId()).orElse(null);
+            new OrdemServicoResponseDTO(updateEntity(ordemServico,requestDTO,funcionario,cliente,equipamento));
         }
         return null;
     }
@@ -56,5 +74,18 @@ public class OrdemServicoService {
         }
         return false;
 
+    }
+
+    private OrdemServico updateEntity(
+            OrdemServico ordemServico,
+            OrdemServicoRequestDTO requestDTO,
+            Funcionario funcionario,
+            Cliente cliente,
+            Equipamento equipamento
+    ){
+        ordemServico.setCliente(cliente);
+        ordemServico.setFuncionario(funcionario);
+        ordemServico.setEquipamento(equipamento);
+        return ordemServico;
     }
 }
