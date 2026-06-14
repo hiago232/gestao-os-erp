@@ -4,13 +4,13 @@ import jakarta.validation.constraints.NotNull;
 
 public record OrdemServicoRequestDTO(
 
-        @NotNull
+        @NotNull(message = "Id do funcionário obrigatório.")
         Integer funcionarioId,
 
-        @NotNull
+        @NotNull(message = "Id do cliente obrigatório.")
         Long clienteId,
 
-        @NotNull
+        @NotNull(message = "Id do equipamento obrigatório.")
         Long equipamentoId
 
 
