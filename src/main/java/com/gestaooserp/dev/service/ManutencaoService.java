@@ -1,13 +1,11 @@
 package com.gestaooserp.dev.service;
 /*
  * TODO:
- * - Implementar DTOs para requests/responses
- * - Logo apos implementar DTO, implementar metodo save
  * - Adicionar validações de negócio
  * - Integrar tratamento global de exceções
- * - Melhorar separação entre domínio e camada HTTP
  */
 import com.gestaooserp.dev.dto.request.ManutencaoRequestDTO;
+import com.gestaooserp.dev.dto.response.ManutencaoResponseDTO;
 import com.gestaooserp.dev.dto.response.OrdemServicoResponseDTO;
 import com.gestaooserp.dev.entity.*;
 import com.gestaooserp.dev.repository.*;
@@ -21,47 +19,46 @@ import java.util.stream.Collectors;
 public class ManutencaoService {
 
     private final ManutencaoRepository manutencaoRepository;
-    private final OrdemServicoRepository ordemServicoRepository;
     private final OrdemServicoService ordemServicoService;
-    private final FuncionarioRepository funcionarioRepository;
-    private final ClienteRepository clienteRepository;
-    private final EquipamentoRepository equipamentoRepository;
 
     @Autowired
     public ManutencaoService(
             ManutencaoRepository manutencaoRepository,
             OrdemServicoRepository ordemServicoRepository,
-            OrdemServicoService ordemServicoService,
-            FuncionarioRepository funcionarioRepository,
-            ClienteRepository clienteRepository,
-            EquipamentoRepository equipamentoRepository
+            OrdemServicoService ordemServicoService
+
 
     ){
         this.manutencaoRepository = manutencaoRepository;
-        this.ordemServicoRepository = ordemServicoRepository;
         this.ordemServicoService = ordemServicoService;
-        this.funcionarioRepository = funcionarioRepository;
-        this.clienteRepository = clienteRepository;
-        this.equipamentoRepository = equipamentoRepository;
+
     }
 
-    public List<Manutencao> findAll(){
+    public List<ManutencaoResponseDTO> findAll(){
         List<Manutencao> manutencaoList = manutencaoRepository.findAll();
-        return manutencaoList.stream().map(Manutencao::new).collect(Collectors.toList());
+        return manutencaoList.stream().map(ManutencaoResponseDTO::new).toList();
     }
 
-    public Manutencao findById(Long id){
-        return manutencaoRepository.findById(id).orElse(null);
+    public ManutencaoResponseDTO findById(Long id){
+        return new ManutencaoResponseDTO(manutencaoRepository.findById(id).orElse(null));
     }
 
-    public Manutencao save(ManutencaoRequestDTO requestDTO){
-
-        return null; //TODO: implentar DTO
+    public ManutencaoResponseDTO save(ManutencaoRequestDTO requestDTO){
+        Manutencao manutencao = manutencaoRepository.save(new Manutencao());
+        OrdemServico ordemServico = ordemServicoService.abrirOrdemServico(
+                manutencao,
+                requestDTO.funcionarioId(),
+                requestDTO.clienteId(),
+                requestDTO.equipamentoId()
+        );
+        return new ManutencaoResponseDTO(manutencaoRepository.save(updateEntity(requestDTO,manutencao,ordemServico)));
     }
 
-    public Manutencao update(Long id,Manutencao manutencao){
-        if (manutencaoRepository.findById(id).isPresent()){
-            return manutencaoRepository.save(manutencao);
+    public ManutencaoResponseDTO update(Long id,ManutencaoRequestDTO requestDTO){
+        Manutencao manutencao = manutencaoRepository.findById(id).orElse(null);
+        if (manutencao != null){
+            OrdemServico ordemServico = ordemServicoService.findById(manutencao.getOrdemServico().getOrdemServicoId());
+            return new ManutencaoResponseDTO(manutencaoRepository.save(updateEntity(requestDTO,manutencao,ordemServico)));
         }
         return null;
     }
@@ -80,7 +77,14 @@ public class ManutencaoService {
             Manutencao manutencao,
             OrdemServico ordemServico
     ){
-
-        return null;
+        manutencao.setOrdemServico(ordemServico);
+        manutencao.setProblemaRelatado(requestDTO.problemaRelatado());
+        manutencao.setDefeitoConstatado(requestDTO.defeitoConstatado());
+        manutencao.setServicoRealizado(requestDTO.servicoRealizado());
+        manutencao.setDataInicial(requestDTO.dataInicial());
+        manutencao.setDataFinal(requestDTO.dataFinal());
+        manutencao.setDataEntrada(requestDTO.dataEntrada());
+        manutencao.setDataSaida(requestDTO.dataSaida());
+        return manutencao;
     }
 }

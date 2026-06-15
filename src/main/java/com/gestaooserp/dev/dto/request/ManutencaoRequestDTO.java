@@ -26,7 +26,7 @@ public record ManutencaoRequestDTO(
         @NotNull(message = "Data de entrada obrigatória.")
         LocalDate dataEntrada,
 
-        String dataSaida
+        LocalDate dataSaida
 
 
 ) {

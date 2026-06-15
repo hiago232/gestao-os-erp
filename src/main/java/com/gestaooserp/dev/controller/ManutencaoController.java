@@ -1,14 +1,15 @@
 package com.gestaooserp.dev.controller;
 /*
  * TODO:
- * - Implementar DTOs para requests/responses
- * - Implementar anotation @Valid para validações
- * - Integrar tratamento global de exceções
- * - Melhorar separação entre domínio e camada HTTP
+ * - Refatorar codigo após Implementar Exception Handler
  */
 
+
+import com.gestaooserp.dev.dto.request.ManutencaoRequestDTO;
+import com.gestaooserp.dev.dto.response.ManutencaoResponseDTO;
 import com.gestaooserp.dev.entity.Manutencao;
 import com.gestaooserp.dev.service.ManutencaoService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,8 @@ public class ManutencaoController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Manutencao>> getAll(){
-        List<Manutencao> manutencaoList = manutencaoService.findAll();
+    public ResponseEntity<List<ManutencaoResponseDTO>> getAll(){
+        List<ManutencaoResponseDTO> manutencaoList = manutencaoService.findAll();
         if (manutencaoList != null){
             return new ResponseEntity<>(manutencaoList, HttpStatus.OK);
         }
@@ -36,8 +37,8 @@ public class ManutencaoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Manutencao> getById(@PathVariable Long id){
-        Manutencao manutencao = manutencaoService.findById(id);
+    public ResponseEntity<ManutencaoResponseDTO> getById(@PathVariable Long id){
+        ManutencaoResponseDTO manutencao = manutencaoService.findById(id);
         if (manutencao != null){
             return new ResponseEntity<>(manutencao,HttpStatus.OK);
         }
@@ -45,13 +46,13 @@ public class ManutencaoController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Manutencao> create(@RequestBody Manutencao manutencao){
-        return new ResponseEntity<>(manutencaoService.save(manutencao),HttpStatus.CREATED);
+    public ResponseEntity<ManutencaoResponseDTO> create(@Valid @RequestBody ManutencaoRequestDTO requestDTO){
+        return new ResponseEntity<>(manutencaoService.save(requestDTO),HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Manutencao> update(@PathVariable Long id,@RequestBody Manutencao manutencao){
-        Manutencao manutencaoAtualizada = manutencaoService.update(id, manutencao);
+    public ResponseEntity<ManutencaoResponseDTO> update(@PathVariable Long id,@Valid @RequestBody ManutencaoRequestDTO requestDTO){
+        ManutencaoResponseDTO manutencaoAtualizada = manutencaoService.update(id, requestDTO);
         if (manutencaoAtualizada != null){
             return new ResponseEntity<>(manutencaoAtualizada,HttpStatus.OK);
         }

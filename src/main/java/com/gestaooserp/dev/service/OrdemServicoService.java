@@ -43,15 +43,16 @@ public class OrdemServicoService {
         return ordemServicoList.stream().map(OrdemServicoResponseDTO::new).toList();
     }
 
-    public OrdemServicoResponseDTO findById(Long id){
-        return new OrdemServicoResponseDTO(ordemServicoRepository.findById(id).orElse(null));
+    public OrdemServico findById(Long id){
+        return new OrdemServico(ordemServicoRepository.findById(id).orElse(null));
     }
 
-    public OrdemServico abrirOrdemServico (Funcionario funcionario, Cliente cliente, Equipamento equipamento){
+    public OrdemServico abrirOrdemServico (Manutencao manutencao, Integer funcionarioId, Long clienteId, Long equipamentoId){
         OrdemServico ordemServico = new OrdemServico();
-        ordemServico.setFuncionario(funcionario);
-        ordemServico.setCliente(cliente);
-        ordemServico.setEquipamento(equipamento);
+        ordemServico.setFuncionario(funcionarioRepository.findById(funcionarioId).orElse(null));
+        ordemServico.setCliente(clienteRepository.findById(clienteId).orElse(null));
+        ordemServico.setEquipamento(equipamentoRepository.findById(equipamentoId).orElse(null));
+        ordemServico.setManutencao(manutencao);
         return ordemServicoRepository.save(ordemServico);
     }
 
