@@ -9,6 +9,9 @@ import com.gestaooserp.dev.dto.request.ManutencaoRequestDTO;
 import com.gestaooserp.dev.dto.response.ManutencaoResponseDTO;
 import com.gestaooserp.dev.entity.Manutencao;
 import com.gestaooserp.dev.service.ManutencaoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +30,13 @@ public class ManutencaoController {
         this.manutencaoService = manutencaoService;
     }
 
+    @Operation(summary="Listar todas manutenções",description = "Listagem de serviços")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "A requisição foi executada com sucesso."),
+            @ApiResponse(responseCode = "400",description = "Requisição inválida"),
+            @ApiResponse(responseCode = "403",description = "Você não tem permissão.")
+
+    })
     @GetMapping("/")
     public ResponseEntity<List<ManutencaoResponseDTO>> getAll(){
         List<ManutencaoResponseDTO> manutencaoList = manutencaoService.findAll();
