@@ -46,15 +46,19 @@ public class OrdemServicoController {
         return new ResponseEntity<>(null,HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<OrdemServicoResponseDTO> getById(@PathVariable Long id){
-        OrdemServicoResponseDTO ordemServico = ordemServicoService.findById(id);
-        if (ordemServico != null){
-            return new ResponseEntity<>(ordemServico,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
-    }
-
+//    @GetMapping("/{id}")
+//    public ResponseEntity<OrdemServicoResponseDTO> getById(@PathVariable Long id){
+//        OrdemServicoResponseDTO ordemServico = ordemServicoService.findById(id);
+//        if (ordemServico != null){
+//            return new ResponseEntity<>(ordemServico,HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+//    }
+//
+//    @PostMapping("/")
+//    public ResponseEntity<OrdemServicoResponseDTO> create(@Valid @RequestBody OrdemServicoRequestDTO requestDTO){
+//        return new ResponseEntity<>(ordemServicoService.save(requestDTO),HttpStatus.CREATED);
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<OrdemServicoResponseDTO> update(@PathVariable Long id,@Valid @RequestBody OrdemServicoRequestDTO requestDTO){
