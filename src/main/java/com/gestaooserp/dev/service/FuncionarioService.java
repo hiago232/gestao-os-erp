@@ -2,12 +2,11 @@ package com.gestaooserp.dev.service;
 
 /*
  * TODO:
- * - Implementar DTOs para requests/responses
- * - Logo apos implementar DTO, implementar metodo save
  * - Adicionar validações de negócio
  * - Integrar tratamento global de exceções
- * - Melhorar separação entre domínio e camada HTTP
  */
+import com.gestaooserp.dev.dto.request.FuncionarioRequestDTO;
+import com.gestaooserp.dev.dto.response.FuncionarioResponseDTO;
 import com.gestaooserp.dev.entity.Funcionario;
 import com.gestaooserp.dev.repository.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,22 +25,24 @@ public class FuncionarioService {
         this.funcionarioRepository = funcionarioRepository;
     }
 
-    public List<Funcionario> findAll(){
+    public List<FuncionarioResponseDTO> findAll(){
         List<Funcionario> funcionarioList = funcionarioRepository.findAll();
-        return funcionarioList.stream().map(Funcionario::new).collect(Collectors.toList());
+        return funcionarioList.stream().map(FuncionarioResponseDTO::new).toList();
     }
 
-    public Funcionario findById(Integer id){
-        return funcionarioRepository.findById(id).orElse(null);
+    public FuncionarioResponseDTO findById(Integer id){
+        return new FuncionarioResponseDTO(funcionarioRepository.findById(id).orElse(null));
     }
 
-    public Funcionario save(Funcionario funcionario){
-        return null; //TODO: implentar DTO
+    public FuncionarioResponseDTO save(FuncionarioRequestDTO requestDTO){
+        Funcionario funcionario = new Funcionario();
+        return new FuncionarioResponseDTO(updateEntity(requestDTO,funcionario)); //TODO: implentar DTO
     }
 
-    public Funcionario update(Integer id,Funcionario funcionario){
-        if (funcionarioRepository.findById(id).isPresent()){
-            return funcionarioRepository.save(funcionario);
+    public FuncionarioResponseDTO update(Integer id,FuncionarioRequestDTO requestDTO){
+        Funcionario funcionario = funcionarioRepository.findById(id).orElse(null);
+        if (funcionario != null){
+            return new FuncionarioResponseDTO(updateEntity(requestDTO,funcionario)); //TODO: implentar DTO
         }
         return null;
     }
@@ -53,5 +54,20 @@ public class FuncionarioService {
             return true;
         }
         return false;
+    }
+
+    private Funcionario updateEntity(FuncionarioRequestDTO requestDTO, Funcionario funcionario){
+        funcionario.setNome(requestDTO.nome());
+        funcionario.setNascimento(requestDTO.nascimento());
+        funcionario.setDataAdmissao(requestDTO.dataAdmissao());
+        funcionario.setCargo(requestDTO.cargo());
+        funcionario.setCpf(requestDTO.cpf());
+        funcionario.setEndereco(requestDTO.endereco());
+        funcionario.setCidade(requestDTO.cidade());
+        funcionario.setEstado(requestDTO.estado());
+        funcionario.setEmail(requestDTO.email());
+        funcionario.setCep(requestDTO.cep());
+        funcionario.setCel(requestDTO.cel());
+        return funcionario;
     }
 }

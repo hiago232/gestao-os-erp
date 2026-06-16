@@ -19,6 +19,16 @@ public class Funcionario {
     @Setter
     private Integer funcionarioId;
 
+    @Column(name = "nome",nullable = false,length = 40)
+    @Getter
+    @Setter
+    private String nome;
+
+    @Column(name = "nascimento",nullable = false)
+    @Getter
+    @Setter
+    private LocalDate nascimento;
+
     @Column(name = "data_admissao",nullable = false)
     @Getter
     @Setter
@@ -28,6 +38,11 @@ public class Funcionario {
     @Getter
     @Setter
     private String cargo;
+
+    @Column(name = "cpf",nullable = false,length = 12)
+    @Getter
+    @Setter
+    private String cpf;
 
     @Column(name = "endereco",nullable = false)
     @Getter

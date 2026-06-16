@@ -1,14 +1,15 @@
 package com.gestaooserp.dev.controller;
 /*
  * TODO:
- * - Implementar DTOs para requests/responses
- * - Implementar anotation @Valid para validações
- * - Integrar tratamento global de exceções
- * - Melhorar separação entre domínio e camada HTTP
+ * - Refatorar codigo após Implementar Exception Handler
  */
 
+
+import com.gestaooserp.dev.dto.request.FuncionarioRequestDTO;
+import com.gestaooserp.dev.dto.response.FuncionarioResponseDTO;
 import com.gestaooserp.dev.entity.Funcionario;
 import com.gestaooserp.dev.service.FuncionarioService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +27,8 @@ public class FuncionarioController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Funcionario>> getAll(){
-        List<Funcionario> funcionarioList = funcionarioService.findAll();
+    public ResponseEntity<List<FuncionarioResponseDTO>> getAll(){
+        List<FuncionarioResponseDTO> funcionarioList = funcionarioService.findAll();
         if (funcionarioList != null){
             return new ResponseEntity<>(funcionarioList, HttpStatus.OK);
         }
@@ -35,8 +36,8 @@ public class FuncionarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Funcionario> getById(@PathVariable Integer id){
-        Funcionario funcionario = funcionarioService.findById(id);
+    public ResponseEntity<FuncionarioResponseDTO> getById(@PathVariable Integer id){
+        FuncionarioResponseDTO funcionario = funcionarioService.findById(id);
         if (funcionario != null){
             return new ResponseEntity<>(funcionario,HttpStatus.OK);
         }
@@ -44,13 +45,13 @@ public class FuncionarioController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Funcionario> create(@RequestBody Funcionario funcionario){
-        return new ResponseEntity<>(funcionarioService.save(funcionario),HttpStatus.CREATED);
+    public ResponseEntity<FuncionarioResponseDTO> create(@Valid @RequestBody FuncionarioRequestDTO requestDTO){
+        return new ResponseEntity<>(funcionarioService.save(requestDTO),HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Funcionario> update(@PathVariable Integer id,@RequestBody Funcionario funcionario){
-        Funcionario funcionarioAtualizado = funcionarioService.update(id,funcionario);
+    public ResponseEntity<FuncionarioResponseDTO> update(@PathVariable Integer id,@Valid @RequestBody FuncionarioRequestDTO requestDTO){
+        FuncionarioResponseDTO funcionarioAtualizado = funcionarioService.update(id,requestDTO);
         if (funcionarioAtualizado != null){
             return new ResponseEntity<>(funcionarioAtualizado,HttpStatus.OK);
         }
