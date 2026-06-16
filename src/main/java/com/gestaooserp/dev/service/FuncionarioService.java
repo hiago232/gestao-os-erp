@@ -36,13 +36,17 @@ public class FuncionarioService {
 
     public FuncionarioResponseDTO save(FuncionarioRequestDTO requestDTO){
         Funcionario funcionario = new Funcionario();
-        return new FuncionarioResponseDTO(updateEntity(requestDTO,funcionario)); //TODO: implentar DTO
+        return new FuncionarioResponseDTO(funcionarioRepository.save(updateEntity(
+                requestDTO,funcionario
+        )));
     }
 
     public FuncionarioResponseDTO update(Integer id,FuncionarioRequestDTO requestDTO){
         Funcionario funcionario = funcionarioRepository.findById(id).orElse(null);
         if (funcionario != null){
-            return new FuncionarioResponseDTO(updateEntity(requestDTO,funcionario)); //TODO: implentar DTO
+            return new FuncionarioResponseDTO(funcionarioRepository.save(updateEntity(
+                    requestDTO,funcionario
+            )));
         }
         return null;
     }
