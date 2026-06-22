@@ -16,7 +16,7 @@ public class ServicoLocal {
 
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    @Column(name = "servico_id")
+    @Column(name = "servico_local_id")
     @Getter
     @Setter
     private Long servicoId;
@@ -99,9 +99,9 @@ public class ServicoLocal {
     @Setter
     private Double duracao;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ordem_servico_id")
+    @OneToOne(mappedBy = "servicoLocal",cascade = CascadeType.ALL,orphanRemoval = true)
     @Getter
+    @Setter
     private OrdemServico ordemServico;
 
     @OneToMany(mappedBy = "servicoLocal",cascade = CascadeType.ALL,orphanRemoval = true)

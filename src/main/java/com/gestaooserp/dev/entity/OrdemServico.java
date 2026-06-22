@@ -21,27 +21,32 @@ public class OrdemServico {
     private Long ordemServicoId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "funcionario_id")
     @Getter
     @Setter
     private Funcionario funcionario;
 
     @ManyToOne(fetch =  FetchType.LAZY)
+    @JoinColumn(name = "cliente_id")
     @Getter
     @Setter
     private Cliente cliente;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "equipamento_id")
     @JsonBackReference
     @Getter
     @Setter
     private Equipamento equipamento;
 
-    @OneToOne(mappedBy = "ordemServico",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manutencao_id")
     @Getter
     @Setter
     private Manutencao manutencao;
 
-    @OneToOne(mappedBy = "ordemServico",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "servico_local_id")
     @Getter
     @Setter
     private ServicoLocal servicoLocal;

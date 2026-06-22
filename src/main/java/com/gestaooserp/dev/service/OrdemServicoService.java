@@ -47,12 +47,12 @@ public class OrdemServicoService {
         return new OrdemServico(ordemServicoRepository.findById(id).orElse(null));
     }
 
-    public OrdemServico abrirOrdemServico (Manutencao manutencao, Integer funcionarioId, Long clienteId, Long equipamentoId){
+    public OrdemServico abrirOrdemServico (Manutencao manutencao,Integer funcionarioId, Long clienteId, Long equipamentoId){
         OrdemServico ordemServico = new OrdemServico();
         ordemServico.setFuncionario(funcionarioRepository.findById(funcionarioId).orElse(null));
         ordemServico.setCliente(clienteRepository.findById(clienteId).orElse(null));
         ordemServico.setEquipamento(equipamentoRepository.findById(equipamentoId).orElse(null));
-        ordemServico.setManutencao(manutencao);
+        ordemServico.setOrdemServicoId(manutencao.getManutencaoId());
         return ordemServicoRepository.save(ordemServico);
     }
 

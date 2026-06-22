@@ -44,14 +44,15 @@ public class ManutencaoService {
     }
 
     public ManutencaoResponseDTO save(ManutencaoRequestDTO requestDTO){
-        Manutencao manutencao = manutencaoRepository.save(new Manutencao());
+        Manutencao manutencao = manutencaoRepository.save(updateEntity(requestDTO,new Manutencao(),new OrdemServico()));
         OrdemServico ordemServico = ordemServicoService.abrirOrdemServico(
                 manutencao,
                 requestDTO.funcionarioId(),
                 requestDTO.clienteId(),
                 requestDTO.equipamentoId()
         );
-        return new ManutencaoResponseDTO(manutencaoRepository.save(updateEntity(requestDTO,manutencao,ordemServico)));
+        manutencao.setOrdemServico(ordemServico);
+        return new ManutencaoResponseDTO(manutencaoRepository.save(manutencao));
     }
 
     public ManutencaoResponseDTO update(Long id,ManutencaoRequestDTO requestDTO){
@@ -67,6 +68,8 @@ public class ManutencaoService {
         Manutencao manutencao = manutencaoRepository.findById(id).orElse(null);
         if (manutencao != null){
             manutencaoRepository.delete(manutencao);
+            Long ordemServicoId = manutencao.getOrdemServico().getOrdemServicoId();
+            ordemServicoService.delete(ordemServicoId);
             return true;
         }
         return false;

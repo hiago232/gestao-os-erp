@@ -54,8 +54,7 @@ public class Manutencao {
     @Setter
     private LocalDate dataSaida;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ordem_servico_id")
+    @OneToOne(mappedBy = "manutencao",cascade = CascadeType.ALL,orphanRemoval = true)
     @Getter
     @Setter
     private OrdemServico ordemServico;
