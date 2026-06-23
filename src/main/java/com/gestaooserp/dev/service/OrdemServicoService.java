@@ -24,18 +24,21 @@ public class OrdemServicoService {
     private final FuncionarioRepository funcionarioRepository;
     private final ClienteRepository clienteRepository;
     private final EquipamentoRepository equipamentoRepository;
+    private final ManutencaoRepository manutencaoRepository;
 
     @Autowired
     public OrdemServicoService(
             OrdemServicoRepository ordemServicoRepository,
             FuncionarioRepository funcionarioRepository,
             ClienteRepository clienteRepository,
-            EquipamentoRepository equipamentoRepository
+            EquipamentoRepository equipamentoRepository,
+            ManutencaoRepository manutencaoRepository
     ){
         this.ordemServicoRepository = ordemServicoRepository;
         this.funcionarioRepository = funcionarioRepository;
         this.clienteRepository = clienteRepository;
         this.equipamentoRepository = equipamentoRepository;
+        this.manutencaoRepository  = manutencaoRepository;
     }
 
     public List<OrdemServicoResponseDTO> findAll(){
@@ -77,6 +80,7 @@ public class OrdemServicoService {
     public Boolean delete(Long id){
         OrdemServico ordemServico = ordemServicoRepository.findById(id).orElse(null);
         if(ordemServico != null){
+            manutencaoRepository.delete(ordemServico.getManutencao());
             ordemServicoRepository.delete(ordemServico);
             return true;
         }
