@@ -74,8 +74,6 @@ public class ManutencaoService {
         Manutencao manutencao = manutencaoRepository.findById(id).orElse(null);
         if (manutencao != null){
             manutencaoRepository.delete(manutencao);
-            Long ordemServicoId = manutencao.getOrdemServico().getOrdemServicoId();
-            ordemServicoService.delete(ordemServicoId);
             return true;
         }
         return false;
