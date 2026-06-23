@@ -6,8 +6,8 @@ public record OrdemServicoResponseDTO(
         Long ordemServicoId,
         Integer funcionarioId,
         Long clienteId,
-        Long manutencaoId,
         Long equipamentoId,
+        Long manutencaoId,
         Long servicoLocalId
 
 ) {
@@ -16,9 +16,11 @@ public record OrdemServicoResponseDTO(
                 ordemServico.getOrdemServicoId(),
                 ordemServico.getFuncionario().getFuncionarioId(),
                 ordemServico.getCliente().getClienteId(),
-                ordemServico.getManutencao().getManutencaoId(),
                 ordemServico.getEquipamento().getEquipamentoId(),
-                ordemServico.getServicoLocal().getServicoId()
+                ordemServico.getManutencao() != null
+                ?ordemServico.getManutencao().getManutencaoId():null,
+                ordemServico.getServicoLocal() != null
+                ? ordemServico.getServicoLocal().getServicoId():null
         );
     }
 

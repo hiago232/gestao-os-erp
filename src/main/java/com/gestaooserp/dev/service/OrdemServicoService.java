@@ -49,20 +49,27 @@ public class OrdemServicoService {
 
     public OrdemServico abrirOrdemServico (Manutencao manutencao,Integer funcionarioId, Long clienteId, Long equipamentoId){
         OrdemServico ordemServico = new OrdemServico();
-        ordemServico.setFuncionario(funcionarioRepository.findById(funcionarioId).orElse(null));
-        ordemServico.setCliente(clienteRepository.findById(clienteId).orElse(null));
-        ordemServico.setEquipamento(equipamentoRepository.findById(equipamentoId).orElse(null));
-        ordemServico.setOrdemServicoId(manutencao.getManutencaoId());
+        ordemServico = updateEntity(ordemServico,funcionarioId,clienteId,equipamentoId);
+        ordemServico.setManutencao(manutencao);
+        return ordemServicoRepository.save(ordemServico);
+    }
+
+    public OrdemServico atualizaOrdemServico (Manutencao manutencao,Integer funcionarioId, Long clienteId, Long equipamentoId){
+        OrdemServico ordemServico = manutencao.getOrdemServico();
+        ordemServico = updateEntity(ordemServico,funcionarioId,clienteId,equipamentoId);
+        ordemServico.setManutencao(manutencao);
         return ordemServicoRepository.save(ordemServico);
     }
 
     public OrdemServicoResponseDTO update(Long id,OrdemServicoRequestDTO requestDTO){
         OrdemServico ordemServico = ordemServicoRepository.findById(id).orElse(null);
         if (ordemServico != null) {
-            Funcionario funcionario = funcionarioRepository.findById(requestDTO.funcionarioId()).orElse(null);
-            Cliente cliente = clienteRepository.findById(requestDTO.clienteId()).orElse(null);
-            Equipamento equipamento = equipamentoRepository.findById(requestDTO.equipamentoId()).orElse(null);
-            new OrdemServicoResponseDTO(updateEntity(ordemServico,requestDTO,funcionario,cliente,equipamento));
+            return new OrdemServicoResponseDTO(ordemServicoRepository.save(updateEntity(
+                    ordemServico,
+                    requestDTO.funcionarioId(),
+                    requestDTO.clienteId(),
+                    requestDTO.equipamentoId())
+            ));
         }
         return null;
     }
@@ -79,14 +86,16 @@ public class OrdemServicoService {
 
     private OrdemServico updateEntity(
             OrdemServico ordemServico,
-            OrdemServicoRequestDTO requestDTO,
-            Funcionario funcionario,
-            Cliente cliente,
-            Equipamento equipamento
+            Integer funcionarioId,
+            Long clienteId,
+            Long equipamentoId
     ){
-        ordemServico.setCliente(cliente);
-        ordemServico.setFuncionario(funcionario);
-        ordemServico.setEquipamento(equipamento);
+        ordemServico.setFuncionario(funcionarioRepository.findById(funcionarioId).orElse(null));
+        ordemServico.setCliente(clienteRepository.findById(clienteId).orElse(null));
+        ordemServico.setEquipamento(equipamentoRepository.findById(equipamentoId).orElse(null));
+//        ordemServico.setCliente(cliente);
+//        ordemServico.setFuncionario(funcionario);
+//        ordemServico.setEquipamento(equipamento);
         return ordemServico;
     }
 }

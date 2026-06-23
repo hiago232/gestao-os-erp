@@ -44,7 +44,7 @@ public class ManutencaoService {
     }
 
     public ManutencaoResponseDTO save(ManutencaoRequestDTO requestDTO){
-        Manutencao manutencao = manutencaoRepository.save(updateEntity(requestDTO,new Manutencao(),new OrdemServico()));
+        Manutencao manutencao = manutencaoRepository.save(updateEntity(requestDTO,new Manutencao()));
         OrdemServico ordemServico = ordemServicoService.abrirOrdemServico(
                 manutencao,
                 requestDTO.funcionarioId(),
@@ -58,8 +58,14 @@ public class ManutencaoService {
     public ManutencaoResponseDTO update(Long id,ManutencaoRequestDTO requestDTO){
         Manutencao manutencao = manutencaoRepository.findById(id).orElse(null);
         if (manutencao != null){
-            OrdemServico ordemServico = ordemServicoService.findById(manutencao.getOrdemServico().getOrdemServicoId());
-            return new ManutencaoResponseDTO(manutencaoRepository.save(updateEntity(requestDTO,manutencao,ordemServico)));
+            OrdemServico ordemServico = ordemServicoService.atualizaOrdemServico(
+                    manutencao,
+                    requestDTO.funcionarioId(),
+                    requestDTO.clienteId(),
+                    requestDTO.equipamentoId()
+            );
+            manutencao.setOrdemServico(ordemServico);
+            return new ManutencaoResponseDTO(manutencaoRepository.save(updateEntity(requestDTO,manutencao)));
         }
         return null;
     }
@@ -77,10 +83,11 @@ public class ManutencaoService {
 
     private Manutencao updateEntity(
             ManutencaoRequestDTO requestDTO,
-            Manutencao manutencao,
-            OrdemServico ordemServico
+            Manutencao manutencao
+//            OrdemServico ordemServico
     ){
-        manutencao.setOrdemServico(ordemServico);
+
+//        manutencao.setOrdemServico(ordemServico);
         manutencao.setProblemaRelatado(requestDTO.problemaRelatado());
         manutencao.setDefeitoConstatado(requestDTO.defeitoConstatado());
         manutencao.setServicoRealizado(requestDTO.servicoRealizado());
