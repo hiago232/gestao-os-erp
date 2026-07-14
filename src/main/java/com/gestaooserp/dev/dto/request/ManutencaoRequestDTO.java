@@ -15,6 +15,9 @@ public record ManutencaoRequestDTO(
         @NotNull(message = "Id do equipamento obrigatório.")
         Long equipamentoId,
 
+        @NotNull(message = "Código de Status obrigatório!")
+        Integer codigoStatus,
+
         @NotNull(message = "Problema relatado obrigatório.")
         String problemaRelatado,
 

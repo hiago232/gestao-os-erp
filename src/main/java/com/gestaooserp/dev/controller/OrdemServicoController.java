@@ -60,14 +60,14 @@ public class OrdemServicoController {
 //        return new ResponseEntity<>(ordemServicoService.save(requestDTO),HttpStatus.CREATED);
 //    }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<OrdemServicoResponseDTO> update(@PathVariable Long id,@Valid @RequestBody OrdemServicoRequestDTO requestDTO){
-        OrdemServicoResponseDTO manutencaoAtualizada = ordemServicoService.update(id, requestDTO);
-        if (manutencaoAtualizada != null){
-            return new ResponseEntity<>(manutencaoAtualizada,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<OrdemServicoResponseDTO> update(@PathVariable Long id,@Valid @RequestBody OrdemServicoRequestDTO requestDTO){
+//        OrdemServicoResponseDTO manutencaoAtualizada = ordemServicoService.update(id, requestDTO);
+//        if (manutencaoAtualizada != null){
+//            return new ResponseEntity<>(manutencaoAtualizada,HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+//    }
 
     @DeleteExchange("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Long id){

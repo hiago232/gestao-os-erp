@@ -4,6 +4,7 @@ import com.gestaooserp.dev.entity.OrdemServico;
 
 public record OrdemServicoResponseDTO(
         Long ordemServicoId,
+        Integer status,
         Integer funcionarioId,
         Long clienteId,
         Long equipamentoId,
@@ -14,6 +15,7 @@ public record OrdemServicoResponseDTO(
     public OrdemServicoResponseDTO(OrdemServico ordemServico){
         this(
                 ordemServico.getOrdemServicoId(),
+                ordemServico.getStatus().getCodigo(),
                 ordemServico.getFuncionario().getFuncionarioId(),
                 ordemServico.getCliente().getClienteId(),
                 ordemServico.getEquipamento().getEquipamentoId(),

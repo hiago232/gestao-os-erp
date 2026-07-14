@@ -4,6 +4,7 @@ package com.gestaooserp.dev.service;
 import com.gestaooserp.dev.dto.request.OrdemServicoRequestDTO;
 import com.gestaooserp.dev.dto.response.OrdemServicoResponseDTO;
 import com.gestaooserp.dev.entity.*;
+import com.gestaooserp.dev.entity.enums.StatusOrdemServico;
 import com.gestaooserp.dev.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,30 +53,40 @@ public class OrdemServicoService {
 
     public OrdemServico abrirOrdemServico (Manutencao manutencao,Integer funcionarioId, Long clienteId, Long equipamentoId){
         OrdemServico ordemServico = new OrdemServico();
-        ordemServico = updateEntity(ordemServico,funcionarioId,clienteId,equipamentoId);
+        Integer status = 10;
+        ordemServico = updateEntity(ordemServico,funcionarioId,clienteId,equipamentoId,status);
         ordemServico.setManutencao(manutencao);
         return ordemServicoRepository.save(ordemServico);
     }
 
-    public OrdemServico atualizaOrdemServico (Manutencao manutencao,Integer funcionarioId, Long clienteId, Long equipamentoId){
+
+    public OrdemServico atualizaOrdemServico (Manutencao manutencao,Integer status,Integer funcionarioId, Long clienteId, Long equipamentoId){
         OrdemServico ordemServico = manutencao.getOrdemServico();
-        ordemServico = updateEntity(ordemServico,funcionarioId,clienteId,equipamentoId);
-        ordemServico.setManutencao(manutencao);
-        return ordemServicoRepository.save(ordemServico);
+        OrdemServico ordemServicoAtualizada = updateEntity(
+                ordemServico,
+                funcionarioId,
+                clienteId,
+                equipamentoId,
+                status
+        );
+        ordemServicoAtualizada.setManutencao(manutencao);
+        return ordemServicoRepository.save(ordemServicoAtualizada);
     }
 
-    public OrdemServicoResponseDTO update(Long id,OrdemServicoRequestDTO requestDTO){
-        OrdemServico ordemServico = ordemServicoRepository.findById(id).orElse(null);
-        if (ordemServico != null) {
-            return new OrdemServicoResponseDTO(ordemServicoRepository.save(updateEntity(
-                    ordemServico,
-                    requestDTO.funcionarioId(),
-                    requestDTO.clienteId(),
-                    requestDTO.equipamentoId())
-            ));
-        }
-        return null;
-    }
+//    public OrdemServicoResponseDTO update(Long id,OrdemServicoRequestDTO requestDTO){
+//        OrdemServico ordemServico = ordemServicoRepository.findById(id).orElse(null);
+//        if (ordemServico != null) {
+//            return new OrdemServicoResponseDTO(ordemServicoRepository.save(updateEntity(
+//                    ordemServico,
+//                    requestDTO.funcionarioId(),
+//                    requestDTO.clienteId(),
+//                    requestDTO.equipamentoId(),
+//                    requestDTO.
+//                    )
+//            ));
+//        }
+//        return null;
+//    }
 
     public Boolean delete(Long id){
         OrdemServico ordemServico = ordemServicoRepository.findById(id).orElse(null);
@@ -92,11 +103,13 @@ public class OrdemServicoService {
             OrdemServico ordemServico,
             Integer funcionarioId,
             Long clienteId,
-            Long equipamentoId
+            Long equipamentoId,
+            Integer status
     ){
         ordemServico.setFuncionario(funcionarioRepository.findById(funcionarioId).orElse(null));
         ordemServico.setCliente(clienteRepository.findById(clienteId).orElse(null));
         ordemServico.setEquipamento(equipamentoRepository.findById(equipamentoId).orElse(null));
+        ordemServico.setStatus(StatusOrdemServico.valueOf(status));
 //        ordemServico.setCliente(cliente);
 //        ordemServico.setFuncionario(funcionario);
 //        ordemServico.setEquipamento(equipamento);

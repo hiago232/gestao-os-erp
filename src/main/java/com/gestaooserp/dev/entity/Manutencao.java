@@ -24,12 +24,12 @@ public class Manutencao {
     @Setter
     private String problemaRelatado;
 
-    @Column(name = "defeito_constatado")
+    @Column(name = "defeito_constatado",nullable = true)
     @Getter
     @Setter
     private String defeitoConstatado;
 
-    @Column(name = "servico_realizado")
+    @Column(name = "servico_realizado",nullable = true)
     @Getter
     @Setter
     private String servicoRealizado;

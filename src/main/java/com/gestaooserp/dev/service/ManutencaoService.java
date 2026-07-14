@@ -60,6 +60,7 @@ public class ManutencaoService {
         if (manutencao != null){
             OrdemServico ordemServico = ordemServicoService.atualizaOrdemServico(
                     manutencao,
+                    requestDTO.codigoStatus(),
                     requestDTO.funcionarioId(),
                     requestDTO.clienteId(),
                     requestDTO.equipamentoId()

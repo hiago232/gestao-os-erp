@@ -3,6 +3,7 @@ package com.gestaooserp.dev.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.gestaooserp.dev.entity.enums.StatusOrdemServico;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,10 +16,13 @@ public class OrdemServico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ordem_servico_id")
+    @Column(name = "ordem_servico_id",nullable = false)
     @Getter
     @Setter
     private Long ordemServicoId;
+
+    @Column(name = "status")
+    private Integer status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "funcionario_id")
@@ -59,5 +63,15 @@ public class OrdemServico {
     public OrdemServico(){}
 
     public OrdemServico(OrdemServico ordemServico) {
+    }
+
+    public StatusOrdemServico getStatus() {
+        return StatusOrdemServico.valueOf(status);
+    }
+
+    public void setStatus(StatusOrdemServico status){
+        if (status != null){
+        this.status = status.getCodigo();
+        }
     }
 }
