@@ -67,10 +67,9 @@ public class ManutencaoController {
     }
 
     @DeleteExchange("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable Long id){
-        if (manutencaoService.delete(id)){
-            return new ResponseEntity<>(true,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(false,HttpStatus.NOT_FOUND);
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        manutencaoService.delete(id);
+        return new ResponseEntity<>(null,HttpStatus.OK);
     }
+
 }

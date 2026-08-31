@@ -43,7 +43,7 @@ public class ManutencaoService {
 
     public ManutencaoResponseDTO findById(Long id){
         return new ManutencaoResponseDTO(manutencaoRepository.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException("Manutenção ID #"+id+" inexistente!")));
+                new ResourceNotFoundException(resourceNotFoundMsg(id))));
     }
 
     public ManutencaoResponseDTO save(ManutencaoRequestDTO requestDTO){
@@ -74,13 +74,15 @@ public class ManutencaoService {
         return null;
     }
 
-    public Boolean delete(Long id){
-        Manutencao manutencao = manutencaoRepository.findById(id).orElse(null);
-        if (manutencao != null){
-            manutencaoRepository.delete(manutencao);
-            return true;
-        }
-        return false;
+    public void delete(Long id){
+
+            Manutencao manutencao = manutencaoRepository.findById(id).orElseThrow(() ->
+                    new ResourceNotFoundException(resourceNotFoundMsg(id)));
+            try {
+                manutencaoRepository.delete(manutencao);
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            }
     }
 
     private Manutencao updateEntity(
@@ -99,4 +101,10 @@ public class ManutencaoService {
         manutencao.setDataSaida(requestDTO.dataSaida());
         return manutencao;
     }
+
+    private String resourceNotFoundMsg(Long id){
+        return "Manutenção ID #"+id+" inexistente!";
+    }
+
+
 }
