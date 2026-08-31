@@ -14,10 +14,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException ex, HttpServletRequest request){
-
+        String err = "Resource not found";
         StandardError error = new StandardError(
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.value(),
+                err,
                 ex.getMessage(),
                 request.getRequestURI()
         );

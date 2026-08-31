@@ -8,6 +8,7 @@ import com.gestaooserp.dev.dto.request.ManutencaoRequestDTO;
 import com.gestaooserp.dev.dto.response.ManutencaoResponseDTO;
 import com.gestaooserp.dev.dto.response.OrdemServicoResponseDTO;
 import com.gestaooserp.dev.entity.*;
+import com.gestaooserp.dev.exception.ResourceNotFoundException;
 import com.gestaooserp.dev.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class ManutencaoService {
 
     private final ManutencaoRepository manutencaoRepository;
     private final OrdemServicoService ordemServicoService;
+
 
     @Autowired
     public ManutencaoService(
@@ -40,7 +42,8 @@ public class ManutencaoService {
     }
 
     public ManutencaoResponseDTO findById(Long id){
-        return new ManutencaoResponseDTO(manutencaoRepository.findById(id).orElse(null));
+        return new ManutencaoResponseDTO(manutencaoRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Manutenção ID #"+id+" inexistente!")));
     }
 
     public ManutencaoResponseDTO save(ManutencaoRequestDTO requestDTO){

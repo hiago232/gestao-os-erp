@@ -49,10 +49,7 @@ public class ManutencaoController {
     @GetMapping("/{id}")
     public ResponseEntity<ManutencaoResponseDTO> getById(@PathVariable Long id){
         ManutencaoResponseDTO manutencao = manutencaoService.findById(id);
-        if (manutencao != null){
-            return new ResponseEntity<>(manutencao,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok(manutencao);
     }
 
     @PostMapping("/")
