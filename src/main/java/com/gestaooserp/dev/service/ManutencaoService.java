@@ -12,6 +12,7 @@ import com.gestaooserp.dev.exception.ResourceNotFoundException;
 import com.gestaooserp.dev.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,6 +47,8 @@ public class ManutencaoService {
                 new ResourceNotFoundException(resourceNotFoundMsg(id))));
     }
 
+    //TODO: Melhorar este fluxo de abertura de OS e manutencao!!
+    @Transactional
     public ManutencaoResponseDTO save(ManutencaoRequestDTO requestDTO){
         Manutencao manutencao = manutencaoRepository.save(updateEntity(requestDTO,new Manutencao()));
         OrdemServico ordemServico = ordemServicoService.abrirOrdemServico(
