@@ -62,19 +62,19 @@ public class ManutencaoService {
     }
 
     public ManutencaoResponseDTO update(Long id,ManutencaoRequestDTO requestDTO){
-        Manutencao manutencao = manutencaoRepository.findById(id).orElse(null);
-        if (manutencao != null){
-            OrdemServico ordemServico = ordemServicoService.atualizaOrdemServico(
-                    manutencao,
-                    requestDTO.codigoStatus(),
-                    requestDTO.funcionarioId(),
-                    requestDTO.clienteId(),
-                    requestDTO.equipamentoId()
-            );
-            manutencao.setOrdemServico(ordemServico);
-            return new ManutencaoResponseDTO(manutencaoRepository.save(updateEntity(requestDTO,manutencao)));
-        }
-        return null;
+        Manutencao manutencao = manutencaoRepository.findById(id).orElseThrow(() ->
+            new ResourceNotFoundException(resourceNotFoundMsg(id)));
+
+        OrdemServico ordemServico = ordemServicoService.atualizaOrdemServico(
+                manutencao,
+                requestDTO.codigoStatus(),
+                requestDTO.funcionarioId(),
+                requestDTO.clienteId(),
+                requestDTO.equipamentoId()
+        );
+        manutencao.setOrdemServico(ordemServico);
+        return new ManutencaoResponseDTO(manutencaoRepository.save(updateEntity(requestDTO,manutencao)));
+
     }
 
     public void delete(Long id){
