@@ -58,7 +58,7 @@ public class ManutencaoService {
                 requestDTO.equipamentoId()
         );
         manutencao.setOrdemServico(ordemServico);
-        return new ManutencaoResponseDTO(manutencaoRepository.save(manutencao));
+        return new ManutencaoResponseDTO(manutencao);
     }
 
     public ManutencaoResponseDTO update(Long id,ManutencaoRequestDTO requestDTO){
