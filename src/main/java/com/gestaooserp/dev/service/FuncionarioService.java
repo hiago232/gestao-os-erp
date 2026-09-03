@@ -8,6 +8,7 @@ package com.gestaooserp.dev.service;
 import com.gestaooserp.dev.dto.request.FuncionarioRequestDTO;
 import com.gestaooserp.dev.dto.response.FuncionarioResponseDTO;
 import com.gestaooserp.dev.entity.Funcionario;
+import com.gestaooserp.dev.exception.ResourceNotFoundException;
 import com.gestaooserp.dev.repository.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,8 @@ public class FuncionarioService {
     }
 
     public FuncionarioResponseDTO findById(Integer id){
-        return new FuncionarioResponseDTO(funcionarioRepository.findById(id).orElse(null));
+        return new FuncionarioResponseDTO(funcionarioRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Funcionário não encontrado! ID "+id)));
     }
 
     public FuncionarioResponseDTO save(FuncionarioRequestDTO requestDTO){
@@ -42,22 +44,17 @@ public class FuncionarioService {
     }
 
     public FuncionarioResponseDTO update(Integer id,FuncionarioRequestDTO requestDTO){
-        Funcionario funcionario = funcionarioRepository.findById(id).orElse(null);
-        if (funcionario != null){
-            return new FuncionarioResponseDTO(funcionarioRepository.save(updateEntity(
-                    requestDTO,funcionario
-            )));
-        }
-        return null;
+        Funcionario funcionario = funcionarioRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Funcionário não encontrado! ID "+id));
+        return new FuncionarioResponseDTO(funcionarioRepository.save(updateEntity(
+                requestDTO,funcionario
+        )));
     }
 
-    public Boolean delete(Integer id){
-        Funcionario funcionario = funcionarioRepository.findById(id).orElse(null);
-        if (funcionario != null){
-            funcionarioRepository.delete(funcionario);
-            return true;
-        }
-        return false;
+    public void delete(Integer id){
+        Funcionario funcionario = funcionarioRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Funcionário não encontrado! ID "+id));
+        funcionarioRepository.delete(funcionario);
     }
 
     private Funcionario updateEntity(FuncionarioRequestDTO requestDTO, Funcionario funcionario){
