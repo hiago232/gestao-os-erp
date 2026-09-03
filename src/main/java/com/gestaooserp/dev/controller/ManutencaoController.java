@@ -59,14 +59,12 @@ public class ManutencaoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ManutencaoResponseDTO> update(@PathVariable Long id,@Valid @RequestBody ManutencaoRequestDTO requestDTO){
-        ManutencaoResponseDTO manutencaoAtualizada = manutencaoService.update(id, requestDTO);
-        if (manutencaoAtualizada != null){
-            return new ResponseEntity<>(manutencaoAtualizada,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        ManutencaoResponseDTO manutencao = manutencaoService.update(id, requestDTO);
+        return ResponseEntity.ok(manutencao);
+
     }
 
-    @DeleteExchange("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         manutencaoService.delete(id);
         return new ResponseEntity<>(null,HttpStatus.OK);

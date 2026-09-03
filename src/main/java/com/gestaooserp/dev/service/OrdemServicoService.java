@@ -91,16 +91,16 @@ public class OrdemServicoService {
 //        return null;
 //    }
 
-    public Boolean delete(Long id){
-        OrdemServico ordemServico = ordemServicoRepository.findById(id).orElse(null);
-        if(ordemServico != null){
-            manutencaoRepository.delete(ordemServico.getManutencao());
-            ordemServicoRepository.delete(ordemServico);
-            return true;
-        }
-        return false;
-
-    }
+//    public Boolean delete(Long id){
+//        OrdemServico ordemServico = ordemServicoRepository.findById(id).orElse(null);
+//        if(ordemServico != null){
+//            manutencaoRepository.delete(ordemServico.getManutencao());
+//            ordemServicoRepository.delete(ordemServico);
+//            return true;
+//        }
+//        return false;
+//
+//    }
 
     private OrdemServico updateEntity(
             OrdemServico ordemServico,
