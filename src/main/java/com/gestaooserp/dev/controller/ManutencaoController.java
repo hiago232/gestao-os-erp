@@ -49,10 +49,7 @@ public class ManutencaoController {
     @GetMapping("/{id}")
     public ResponseEntity<ManutencaoResponseDTO> getById(@PathVariable Long id){
         ManutencaoResponseDTO manutencao = manutencaoService.findById(id);
-        if (manutencao != null){
-            return new ResponseEntity<>(manutencao,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok(manutencao);
     }
 
     @PostMapping("/")
@@ -62,18 +59,15 @@ public class ManutencaoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ManutencaoResponseDTO> update(@PathVariable Long id,@Valid @RequestBody ManutencaoRequestDTO requestDTO){
-        ManutencaoResponseDTO manutencaoAtualizada = manutencaoService.update(id, requestDTO);
-        if (manutencaoAtualizada != null){
-            return new ResponseEntity<>(manutencaoAtualizada,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        ManutencaoResponseDTO manutencao = manutencaoService.update(id, requestDTO);
+        return ResponseEntity.ok(manutencao);
+
     }
 
-    @DeleteExchange("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable Long id){
-        if (manutencaoService.delete(id)){
-            return new ResponseEntity<>(true,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(false,HttpStatus.NOT_FOUND);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        manutencaoService.delete(id);
+        return new ResponseEntity<>(null,HttpStatus.OK);
     }
+
 }

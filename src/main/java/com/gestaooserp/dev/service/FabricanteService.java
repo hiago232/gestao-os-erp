@@ -9,6 +9,7 @@ package com.gestaooserp.dev.service;
 import com.gestaooserp.dev.dto.request.FabricanteRequestDTO;
 import com.gestaooserp.dev.dto.response.FabricanteResponseDTO;
 import com.gestaooserp.dev.entity.Fabricante;
+import com.gestaooserp.dev.exception.ResourceNotFoundException;
 import com.gestaooserp.dev.repository.FabricanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,8 @@ public class FabricanteService {
     }
 
     public FabricanteResponseDTO findById(Long id){
-        return new FabricanteResponseDTO(fabricanteRepository.findById(id).orElse(null));
+        return new FabricanteResponseDTO(fabricanteRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Fabricante não encontrado! ID "+id)));
     }
 
     public FabricanteResponseDTO save(FabricanteRequestDTO requestDTO){
@@ -43,20 +45,16 @@ public class FabricanteService {
     }
 
     public FabricanteResponseDTO update(Long id,FabricanteRequestDTO requestDTO){
-        Fabricante fabricante = fabricanteRepository.findById(id).orElse(null);
-        if (fabricante != null){
-            return new FabricanteResponseDTO(fabricanteRepository.save(updateEntity(fabricante,requestDTO))) ;
-        }
-        return null;
+        Fabricante fabricante = fabricanteRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Fabricante não encontrado! ID "+id));
+        return new FabricanteResponseDTO(fabricanteRepository.save(updateEntity(fabricante,requestDTO))) ;
+
     }
 
-    public Boolean delete(Long id){
-        Fabricante fabricante = fabricanteRepository.findById(id).orElse(null);
-        if (fabricante != null){
-            fabricanteRepository.delete(fabricante);
-            return true;
-        }
-        return false;
+    public void delete(Long id){
+        Fabricante fabricante = fabricanteRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Fabricante não encontrado! ID "+id));
+        fabricanteRepository.delete(fabricante);
     }
 
     private Fabricante updateEntity(Fabricante fabricante, FabricanteRequestDTO requestDTO){

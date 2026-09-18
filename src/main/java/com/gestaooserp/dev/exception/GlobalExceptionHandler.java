@@ -12,16 +12,32 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
 
-        @ExceptionHandler(ResourceNotFoundException.class)
-        public ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException ex, HttpServletRequest request){
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException ex, HttpServletRequest request){
+        String err = "Resource not found";
+        StandardError error = new StandardError(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                err,
+                ex.getMessage(),
+                request.getRequestURI()
+        );
 
-            StandardError error = new StandardError(
-                    LocalDateTime.now(),
-                    HttpStatus.NOT_FOUND.value(),
-                    ex.getMessage(),
-                    request.getRequestURI()
-            );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-        }
+    @ExceptionHandler(BusinessRuleException.class)
+    public ResponseEntity<StandardError> businessRule(BusinessRuleException ex,HttpServletRequest request){
+        String err = "Business rule violation";
+        StandardError error = new StandardError(
+                LocalDateTime.now(),
+                HttpStatus.CONFLICT.value(),
+                err,
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
 }

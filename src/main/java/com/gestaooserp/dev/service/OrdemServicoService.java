@@ -5,6 +5,8 @@ import com.gestaooserp.dev.dto.request.OrdemServicoRequestDTO;
 import com.gestaooserp.dev.dto.response.OrdemServicoResponseDTO;
 import com.gestaooserp.dev.entity.*;
 import com.gestaooserp.dev.entity.enums.StatusOrdemServico;
+import com.gestaooserp.dev.exception.BusinessRuleException;
+import com.gestaooserp.dev.exception.ResourceNotFoundException;
 import com.gestaooserp.dev.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +50,8 @@ public class OrdemServicoService {
     }
 
     public OrdemServico findById(Long id){
-        return new OrdemServico(ordemServicoRepository.findById(id).orElse(null));
+        return new OrdemServico(ordemServicoRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Ordem de Serviço ID#"+id+" inexistente!")));
     }
 
     public OrdemServico abrirOrdemServico (Manutencao manutencao,Integer funcionarioId, Long clienteId, Long equipamentoId){
@@ -88,16 +91,16 @@ public class OrdemServicoService {
 //        return null;
 //    }
 
-    public Boolean delete(Long id){
-        OrdemServico ordemServico = ordemServicoRepository.findById(id).orElse(null);
-        if(ordemServico != null){
-            manutencaoRepository.delete(ordemServico.getManutencao());
-            ordemServicoRepository.delete(ordemServico);
-            return true;
-        }
-        return false;
-
-    }
+//    public Boolean delete(Long id){
+//        OrdemServico ordemServico = ordemServicoRepository.findById(id).orElse(null);
+//        if(ordemServico != null){
+//            manutencaoRepository.delete(ordemServico.getManutencao());
+//            ordemServicoRepository.delete(ordemServico);
+//            return true;
+//        }
+//        return false;
+//
+//    }
 
     private OrdemServico updateEntity(
             OrdemServico ordemServico,
@@ -106,13 +109,21 @@ public class OrdemServicoService {
             Long equipamentoId,
             Integer status
     ){
-        ordemServico.setFuncionario(funcionarioRepository.findById(funcionarioId).orElse(null));
-        ordemServico.setCliente(clienteRepository.findById(clienteId).orElse(null));
-        ordemServico.setEquipamento(equipamentoRepository.findById(equipamentoId).orElse(null));
+
+        Funcionario funcionario = funcionarioRepository.findById(funcionarioId).orElseThrow(() ->
+                new ResourceNotFoundException("Funcionario inexistente. ID "+ funcionarioId));
+        Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(() ->
+                new ResourceNotFoundException("Cliente inexistente. ID "+ clienteId));
+        Equipamento equipamento = equipamentoRepository.findById(equipamentoId).orElseThrow(() ->
+                new ResourceNotFoundException("Equipamento inexistente. ID "+ equipamentoId));
+
+        if (!equipamento.getCliente().equals(cliente)){
+            throw new BusinessRuleException("Equipamento não pertence ao cliente.");
+        }
         ordemServico.setStatus(StatusOrdemServico.valueOf(status));
-//        ordemServico.setCliente(cliente);
-//        ordemServico.setFuncionario(funcionario);
-//        ordemServico.setEquipamento(equipamento);
+        ordemServico.setCliente(cliente);
+        ordemServico.setFuncionario(funcionario);
+        ordemServico.setEquipamento(equipamento);
         return ordemServico;
     }
 }

@@ -48,31 +48,24 @@ public class EquipamentoController {
     @GetMapping("/{id}")
     public ResponseEntity<EquipamentoResponseDTO> getById(@PathVariable Long id){
         EquipamentoResponseDTO equipamento = equipamentoService.findById(id);
-        if (equipamento != null){
-            return new ResponseEntity<>(equipamento,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok(equipamento);
     }
 
     @PostMapping("/")
-    public ResponseEntity<EquipamentoResponseDTO> create(@Valid @RequestBody EquipamentoRequestDTO equipamento){
-        return new ResponseEntity<>(equipamentoService.save(equipamento),HttpStatus.CREATED);
+    public ResponseEntity<EquipamentoResponseDTO> create(@Valid @RequestBody EquipamentoRequestDTO requestDTO){
+        return new ResponseEntity<>(equipamentoService.save(requestDTO),HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EquipamentoResponseDTO> update(@PathVariable Long id,@Valid @RequestBody EquipamentoRequestDTO equipamento){
-        EquipamentoResponseDTO equipamentoAtualizado = equipamentoService.update(id,equipamento);
-        if (equipamentoAtualizado != null){
-            return new ResponseEntity<>(equipamentoAtualizado,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+    public ResponseEntity<EquipamentoResponseDTO> update(@PathVariable Long id,@Valid @RequestBody EquipamentoRequestDTO requestDTO){
+        EquipamentoResponseDTO equipamento = equipamentoService.update(id,requestDTO);
+        return ResponseEntity.ok(equipamento);
+
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable Long id){
-        if(equipamentoService.delete(id)){
-            return new ResponseEntity<>(true,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(false,HttpStatus.NOT_FOUND);
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        equipamentoService.delete(id);
+        return ResponseEntity.ok(null);
     }
 }

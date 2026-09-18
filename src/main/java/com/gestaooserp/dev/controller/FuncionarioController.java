@@ -49,10 +49,7 @@ public class FuncionarioController {
     @GetMapping("/{id}")
     public ResponseEntity<FuncionarioResponseDTO> getById(@PathVariable Integer id){
         FuncionarioResponseDTO funcionario = funcionarioService.findById(id);
-        if (funcionario != null){
-            return new ResponseEntity<>(funcionario,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok(funcionario);
     }
 
     @PostMapping("/")
@@ -62,19 +59,14 @@ public class FuncionarioController {
 
     @PutMapping("/{id}")
     public ResponseEntity<FuncionarioResponseDTO> update(@PathVariable Integer id,@Valid @RequestBody FuncionarioRequestDTO requestDTO){
-        FuncionarioResponseDTO funcionarioAtualizado = funcionarioService.update(id,requestDTO);
-        if (funcionarioAtualizado != null){
-            return new ResponseEntity<>(funcionarioAtualizado,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        FuncionarioResponseDTO funcionario = funcionarioService.update(id,requestDTO);
+        return ResponseEntity.ok(funcionario);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable Integer id){
-        if (funcionarioService.delete(id)){
-            return new ResponseEntity<>(true,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(false,HttpStatus.NOT_FOUND);
+    public ResponseEntity<Void> delete(@PathVariable Integer id){
+        funcionarioService.delete(id);
+        return ResponseEntity.ok(null);
     }
 
 

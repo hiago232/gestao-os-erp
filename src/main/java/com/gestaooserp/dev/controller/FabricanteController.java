@@ -41,10 +41,7 @@ public class FabricanteController {
     @GetMapping("/{id}")
     public ResponseEntity<FabricanteResponseDTO> getById(@PathVariable Long id){
         FabricanteResponseDTO fabricante = fabricanteService.findById(id);
-        if (fabricante != null){
-            return new ResponseEntity<>(fabricante,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok(fabricante);
     }
 
     @PostMapping("/")
@@ -54,19 +51,14 @@ public class FabricanteController {
 
     @PutMapping("/{id}")
     public ResponseEntity<FabricanteResponseDTO> update(@PathVariable Long id,@Valid @RequestBody FabricanteRequestDTO requestDTO){
-        FabricanteResponseDTO fabricanteAtualizado = fabricanteService.update(id,requestDTO);
-        if (fabricanteAtualizado != null){
-            return new ResponseEntity<>(fabricanteAtualizado,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        FabricanteResponseDTO fabricante = fabricanteService.update(id,requestDTO);
+        return ResponseEntity.ok(fabricante);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable Long id){
-        if (fabricanteService.delete(id)){
-            return new ResponseEntity<>(true,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(false,HttpStatus.NOT_FOUND);
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        fabricanteService.delete(id);
+        return ResponseEntity.ok(null);
     }
 
 }

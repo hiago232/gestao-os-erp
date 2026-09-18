@@ -49,11 +49,9 @@ public class ClienteJuridicoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ClienteJuridicoResponseDTO> getById(@PathVariable Long id){
-        ClienteJuridicoResponseDTO responseDTO = clienteJuridicoService.findById(id);
-        if (responseDTO != null){
-            return new ResponseEntity<>(responseDTO,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        ClienteJuridicoResponseDTO clienteJuridico = clienteJuridicoService.findById(id);
+        return ResponseEntity.ok(clienteJuridico);
+
     }
 
     @PostMapping("/")
@@ -62,19 +60,15 @@ public class ClienteJuridicoController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ClienteJuridicoResponseDTO> update(@PathVariable Long id,@Valid @RequestBody ClienteJuridicoRequestDTO requestDTO){
-        ClienteJuridicoResponseDTO responseDTO = clienteJuridicoService.update(id,requestDTO);
-        if (responseDTO != null){
-            return new ResponseEntity<>(responseDTO,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+    public ResponseEntity<ClienteJuridicoResponseDTO> update(@PathVariable Long id,@Valid @RequestBody ClienteJuridicoRequestDTO requestDTO) {
+        ClienteJuridicoResponseDTO clienteJuridico = clienteJuridicoService.update(id, requestDTO);
+        return ResponseEntity.ok(clienteJuridico);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable Long id){
-        if (clienteJuridicoService.delete(id)){
-            return new ResponseEntity<>(true,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(false,HttpStatus.NOT_FOUND);
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        clienteJuridicoService.delete(id);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
+
 }

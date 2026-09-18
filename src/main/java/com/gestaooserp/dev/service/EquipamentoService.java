@@ -12,6 +12,7 @@ import com.gestaooserp.dev.dto.response.FabricanteResponseDTO;
 import com.gestaooserp.dev.entity.Cliente;
 import com.gestaooserp.dev.entity.Equipamento;
 import com.gestaooserp.dev.entity.Fabricante;
+import com.gestaooserp.dev.exception.ResourceNotFoundException;
 import com.gestaooserp.dev.repository.ClienteRepository;
 import com.gestaooserp.dev.repository.EquipamentoRepository;
 import com.gestaooserp.dev.repository.FabricanteRepository;
@@ -43,13 +44,16 @@ public class EquipamentoService {
     }
 
     public EquipamentoResponseDTO findById(Long id){
-        return new EquipamentoResponseDTO(equipamentoRepository.findById(id).orElse(null));
+        return new EquipamentoResponseDTO(equipamentoRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Equipamento não encontrado! ID "+id)));
     }
 
     public EquipamentoResponseDTO save(EquipamentoRequestDTO requestDTO){
         Equipamento equipamento = new Equipamento();
-        Cliente cliente = clienteRepository.findById(requestDTO.clienteId()).orElse(null);
-        Fabricante fabricante = fabricanteRepository.findById(requestDTO.fabricanteId()).orElse(null);
+        Cliente cliente = clienteRepository.findById(requestDTO.clienteId()).orElseThrow(() ->
+                new ResourceNotFoundException("Cliente não encontrado! ID "+requestDTO.clienteId()));
+        Fabricante fabricante = fabricanteRepository.findById(requestDTO.fabricanteId()).orElseThrow(() ->
+                new ResourceNotFoundException("Fabricante não encontrado! ID "+ requestDTO.fabricanteId()));
         return new EquipamentoResponseDTO(equipamentoRepository.save(updateEntity(
                 requestDTO,
                 equipamento,
@@ -59,27 +63,25 @@ public class EquipamentoService {
     }
 
     public EquipamentoResponseDTO update(Long id, EquipamentoRequestDTO requestDTO){
-        Equipamento equipamento = equipamentoRepository.findById(id).orElse(null);
-        if(equipamento != null ){
-            Cliente cliente = clienteRepository.findById(requestDTO.clienteId()).orElse(null);
-            Fabricante fabricante = fabricanteRepository.findById(requestDTO.fabricanteId()).orElse(null);
-            return new EquipamentoResponseDTO(equipamentoRepository.save(updateEntity(
-                    requestDTO,
-                    equipamento,
-                    cliente,
-                    fabricante
-            )));
-        }
-        return null;
+        Equipamento equipamento = equipamentoRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Equipamento não encontrado! ID "+id));
+        Cliente cliente = clienteRepository.findById(requestDTO.clienteId()).orElseThrow(() ->
+                new ResourceNotFoundException("Cliente não encontrado! ID "+ requestDTO.clienteId()));
+        Fabricante fabricante = fabricanteRepository.findById(requestDTO.fabricanteId()).orElseThrow(() ->
+                new ResourceNotFoundException("Fabricante não encontrado! ID "+ requestDTO.fabricanteId()));
+
+        return new EquipamentoResponseDTO(equipamentoRepository.save(updateEntity(
+                requestDTO,
+                equipamento,
+                cliente,
+                fabricante
+        )));
     }
 
-    public Boolean delete(Long id){
-        Equipamento equipamento = equipamentoRepository.findById(id).orElse(null);
-        if(equipamento != null){
-            equipamentoRepository.delete(equipamento);
-            return true;
-        }
-        return false;
+    public void delete(Long id){
+        Equipamento equipamento = equipamentoRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Equipamento não encontrado! ID "+id));
+        equipamentoRepository.delete(equipamento);
     }
 
     private Equipamento updateEntity(

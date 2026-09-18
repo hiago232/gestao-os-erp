@@ -3,6 +3,7 @@ package com.gestaooserp.dev.service;
 import com.gestaooserp.dev.dto.request.ClienteJuridicoRequestDTO;
 import com.gestaooserp.dev.dto.response.ClienteJuridicoResponseDTO;
 import com.gestaooserp.dev.entity.ClienteJuridico;
+import com.gestaooserp.dev.exception.ResourceNotFoundException;
 import com.gestaooserp.dev.repository.ClienteJuridicoRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,8 @@ public class ClienteJuridicoService {
     }
 
     public ClienteJuridicoResponseDTO findById(Long id){
-        return new ClienteJuridicoResponseDTO(clienteJuridicoRepository.findById(id).orElse(null));
+        return new ClienteJuridicoResponseDTO(clienteJuridicoRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Cliente não encotrado! ID "+id)));
     }
 
     public ClienteJuridicoResponseDTO save(ClienteJuridicoRequestDTO requestDTO){
@@ -40,22 +42,17 @@ public class ClienteJuridicoService {
     }
 
     public ClienteJuridicoResponseDTO update(Long id,ClienteJuridicoRequestDTO requestDTO ){
-        ClienteJuridico clienteJuridico = clienteJuridicoRepository.findById(id).orElse(null);
-        if(clienteJuridico != null){
+        ClienteJuridico clienteJuridico = clienteJuridicoRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Cliente não encotrado! ID "+id));
+        return new ClienteJuridicoResponseDTO(clienteJuridicoRepository.save(
+                updateEntity(clienteJuridico,requestDTO)));
 
-            return new ClienteJuridicoResponseDTO(clienteJuridicoRepository.save(
-                    updateEntity(clienteJuridico,requestDTO)));
-        }
-        return null;
     }
 
-    public Boolean delete(Long id){
-        ClienteJuridico clienteJuridico = clienteJuridicoRepository.findById(id).orElse(null);
-        if(clienteJuridico != null){
-            clienteJuridicoRepository.delete(clienteJuridico);
-            return true;
-        }
-        return false;
+    public void delete(Long id){
+        ClienteJuridico clienteJuridico = clienteJuridicoRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Cliente não encotrado! ID "+id));
+        clienteJuridicoRepository.delete(clienteJuridico);
     }
 
     private ClienteJuridico updateEntity(ClienteJuridico clienteJuridico, ClienteJuridicoRequestDTO requestDTO){

@@ -69,11 +69,11 @@ public class OrdemServicoController {
 //        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
 //    }
 
-    @DeleteExchange("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable Long id){
-        if (ordemServicoService.delete(id)){
-            return new ResponseEntity<>(true,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(false,HttpStatus.NOT_FOUND);
-    }
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Boolean> delete(@PathVariable Long id){
+//        if (ordemServicoService.delete(id)){
+//            return new ResponseEntity<>(true,HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(false,HttpStatus.NOT_FOUND);
+//    }
 }

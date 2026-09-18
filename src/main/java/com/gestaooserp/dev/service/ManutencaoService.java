@@ -8,9 +8,11 @@ import com.gestaooserp.dev.dto.request.ManutencaoRequestDTO;
 import com.gestaooserp.dev.dto.response.ManutencaoResponseDTO;
 import com.gestaooserp.dev.dto.response.OrdemServicoResponseDTO;
 import com.gestaooserp.dev.entity.*;
+import com.gestaooserp.dev.exception.ResourceNotFoundException;
 import com.gestaooserp.dev.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +22,7 @@ public class ManutencaoService {
 
     private final ManutencaoRepository manutencaoRepository;
     private final OrdemServicoService ordemServicoService;
+
 
     @Autowired
     public ManutencaoService(
@@ -40,9 +43,12 @@ public class ManutencaoService {
     }
 
     public ManutencaoResponseDTO findById(Long id){
-        return new ManutencaoResponseDTO(manutencaoRepository.findById(id).orElse(null));
+        return new ManutencaoResponseDTO(manutencaoRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException(resourceNotFoundMsg(id))));
     }
 
+    //TODO: Melhorar este fluxo de abertura de OS e manutencao!!
+    @Transactional
     public ManutencaoResponseDTO save(ManutencaoRequestDTO requestDTO){
         Manutencao manutencao = manutencaoRepository.save(updateEntity(requestDTO,new Manutencao()));
         OrdemServico ordemServico = ordemServicoService.abrirOrdemServico(
@@ -52,32 +58,34 @@ public class ManutencaoService {
                 requestDTO.equipamentoId()
         );
         manutencao.setOrdemServico(ordemServico);
-        return new ManutencaoResponseDTO(manutencaoRepository.save(manutencao));
+        return new ManutencaoResponseDTO(manutencao);
     }
 
     public ManutencaoResponseDTO update(Long id,ManutencaoRequestDTO requestDTO){
-        Manutencao manutencao = manutencaoRepository.findById(id).orElse(null);
-        if (manutencao != null){
-            OrdemServico ordemServico = ordemServicoService.atualizaOrdemServico(
-                    manutencao,
-                    requestDTO.codigoStatus(),
-                    requestDTO.funcionarioId(),
-                    requestDTO.clienteId(),
-                    requestDTO.equipamentoId()
-            );
-            manutencao.setOrdemServico(ordemServico);
-            return new ManutencaoResponseDTO(manutencaoRepository.save(updateEntity(requestDTO,manutencao)));
-        }
-        return null;
+        Manutencao manutencao = manutencaoRepository.findById(id).orElseThrow(() ->
+            new ResourceNotFoundException(resourceNotFoundMsg(id)));
+
+        OrdemServico ordemServico = ordemServicoService.atualizaOrdemServico(
+                manutencao,
+                requestDTO.codigoStatus(),
+                requestDTO.funcionarioId(),
+                requestDTO.clienteId(),
+                requestDTO.equipamentoId()
+        );
+        manutencao.setOrdemServico(ordemServico);
+        return new ManutencaoResponseDTO(manutencaoRepository.save(updateEntity(requestDTO,manutencao)));
+
     }
 
-    public Boolean delete(Long id){
-        Manutencao manutencao = manutencaoRepository.findById(id).orElse(null);
-        if (manutencao != null){
-            manutencaoRepository.delete(manutencao);
-            return true;
-        }
-        return false;
+    public void delete(Long id){
+
+            Manutencao manutencao = manutencaoRepository.findById(id).orElseThrow(() ->
+                    new ResourceNotFoundException(resourceNotFoundMsg(id)));
+            try {
+                manutencaoRepository.delete(manutencao);
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            }
     }
 
     private Manutencao updateEntity(
@@ -96,4 +104,10 @@ public class ManutencaoService {
         manutencao.setDataSaida(requestDTO.dataSaida());
         return manutencao;
     }
+
+    private String resourceNotFoundMsg(Long id){
+        return "Manutenção ID #"+id+" inexistente!";
+    }
+
+
 }
