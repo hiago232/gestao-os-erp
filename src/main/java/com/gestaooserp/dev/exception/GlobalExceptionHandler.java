@@ -40,4 +40,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
+    @ExceptionHandler(InvalidJwtAuthException.class)
+    public ResponseEntity<StandardError> invalidJwtAuth(InvalidJwtAuthException ex,HttpServletRequest request){
+        String err = "Invalid JWT Authentication!";
+        StandardError error = new StandardError(
+                LocalDateTime.now(),
+                HttpStatus.FORBIDDEN.value(),
+                err,
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+    }
+
 }
