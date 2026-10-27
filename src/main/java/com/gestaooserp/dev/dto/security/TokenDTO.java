@@ -11,7 +11,6 @@ import java.util.Date;
 public class TokenDTO {
 
     private String userName;
-    private String password;
     private Boolean authenticated;
     private Date created;
     private Date expiration;
@@ -22,9 +21,8 @@ public class TokenDTO {
 
     }
 
-    public TokenDTO(String userName, String password, Boolean authenticated, Date created, Date expiration, String accessToken, String refreshToken) {
+    public TokenDTO(String userName, Boolean authenticated, Date created, Date expiration, String accessToken, String refreshToken) {
         this.userName = userName;
-        this.password = password;
         this.authenticated = authenticated;
         this.created = created;
         this.expiration = expiration;
