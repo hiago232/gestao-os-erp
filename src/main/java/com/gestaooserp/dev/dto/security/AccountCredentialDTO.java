@@ -13,5 +13,8 @@ public class AccountCredentialDTO {
     public AccountCredentialDTO() {
     }
 
-
+    public AccountCredentialDTO(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
 }
