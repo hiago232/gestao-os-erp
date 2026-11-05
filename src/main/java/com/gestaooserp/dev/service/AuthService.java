@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class AuthService {
     @Autowired
     private UsersRepository repository;
 
-    public ResponseEntity<TokenDTO> signIn(AccountCredentialDTO credentials) {
+    public ResponseEntity<TokenDTO> signIn(@RequestBody AccountCredentialDTO credentials) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         credentials.getUserName(),

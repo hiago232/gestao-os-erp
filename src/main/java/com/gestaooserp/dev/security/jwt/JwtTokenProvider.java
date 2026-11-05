@@ -91,13 +91,13 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        if(refreshTokenContainsBearer(bearerToken)) return bearerToken.substring("Bearer ".length());
-        throw new InvalidJwtAuthException("Invalid JWT Token!");
+        if(StringUtils.isNotBlank(bearerToken) && bearerToken.startsWith("Bearer ")) return bearerToken.substring("Bearer ".length());
+        return null;
     }
 
-    private static boolean refreshTokenContainsBearer(String refreshToken) {
-        return StringUtils.isNotBlank(refreshToken) && refreshToken.startsWith("Bearer ");
-    }
+//    private static boolean refreshTokenContainsBearer(String refreshToken) {
+//        return StringUtils.isNotBlank(refreshToken) && refreshToken.startsWith("Bearer ");
+//    }
 
     public boolean validateToken(String token){
         DecodedJWT decodedJWT = decodedToken(token);
